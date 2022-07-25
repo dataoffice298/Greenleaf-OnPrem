@@ -1,2 +1,0 @@
-# Greenleaf-OnPrem
-Greenleaf OnPrem
