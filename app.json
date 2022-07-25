@@ -1,0 +1,38 @@
+{
+  "id": "425effb5-2f93-4521-8169-84375f6ba792",
+  "name": "GreenLeaf",
+  "publisher": "B2B Software Technologies Limited",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "https://b2bsoftech.com/contactus.html",
+  "EULA": "https://b2bsoftech.com/contactus.html",
+  "help": "https://b2bsoftech.com/QChelp.html",
+  "url": "https://b2bsoftech.com/contactus.html",
+  "dependencies": [
+    {
+      "id": "9cb42966-bc4a-42d0-aea1-c6fc922c7c86",
+      "publisher": "B2B Software Technologies Limited",
+      "name": "B2B Quality Control",
+      "version": "1.0.0.4"
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "20.0.0.0",
+  
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 99999
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://b2bsoftech.com/contactus.html",
+ 
+  "runtime": "9.0",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  }
+}
