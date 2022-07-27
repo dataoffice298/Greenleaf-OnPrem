@@ -61,7 +61,11 @@ page 50001 "Sample Card B2B"
                 {
                     ApplicationArea = all;
                 }
-                field("Specification ID"; Rec."Specification ID")
+                field("Purchase Spec ID"; Rec."Purchase Spec ID")
+                {
+                    ApplicationArea = all;
+                }
+                field("Sales Spec ID"; Rec."Sales Spec ID")
                 {
                     ApplicationArea = all;
                 }
@@ -330,7 +334,7 @@ page 50001 "Sample Card B2B"
                         // if Item.GET(Rec."Item No.") then
                         //     if Item."Item Classification" <> Item."Item Classification"::Packing then
                         Rec.TESTFIELD("Expiry Date");
-                        Rec.TESTFIELD("Specification ID");
+                        Rec.TESTFIELD("Sales Spec ID");
                         if Rec."Vendor No." = '' then
                             Rec.TESTFIELD("Vendor Name")
                         else
@@ -394,7 +398,7 @@ page 50001 "Sample Card B2B"
             SalesLine.Validate("No.", Rec."Item No.");
             SalesLine.Validate(Quantity, Rec."Sample Qty");
             SalesLine.Validate("Unit of Measure Code", Rec."Sample UOM");
-            SalesLine."Spec ID" := Rec."Specification ID";
+            SalesLine."Spec ID" := Rec."Sales Spec ID";
             SalesLine.Insert(true);
             //Line Part<<
             Rec."Sales Order No." := SalesHeader."No.";
@@ -426,7 +430,7 @@ page 50001 "Sample Card B2B"
             PurchaseLine.Validate("No.", Rec."Item No.");
             PurchaseLine.Validate(Quantity, Rec."Sample Qty");
             PurchaseLine.Validate("Unit of Measure Code", Rec."Sample UOM");
-            PurchaseLine."Spec ID B2B" := Rec."Specification ID";
+            PurchaseLine."Spec ID B2B" := Rec."Purchase Spec ID";
             PurchaseLine.Insert(true);
             //Line Part<<
             Rec."Purchase Order No." := PurchaseHeader."No.";

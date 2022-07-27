@@ -66,7 +66,11 @@ page 50000 "Sample List B2B"
                 {
                     ApplicationArea = all;
                 }
-                field("Specification ID"; Rec."Specification ID")
+                field("Purchase Spec ID"; Rec."Purchase Spec ID")
+                {
+                    ApplicationArea = all;
+                }
+                field("Sales Spec ID"; Rec."Sales Spec ID")
                 {
                     ApplicationArea = all;
                 }

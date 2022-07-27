@@ -12,6 +12,10 @@ codeunit 50001 MyCodeunit
     procedure OnBeforeInsertInspectionReportHeader(var InspectReportHeader: Record "Inspection Receipt Header B2B"; InspectHeader: Record "Posted Ins DatasheetHeader B2B")
     begin
         InspectReportHeader."Sales. Line No" := InspectHeader."Sales. Line No";
+        if InspectHeader."Document Type" = InspectHeader."Document Type"::"Sales Order" then
+            InspectReportHeader."Document Type" := InspectReportHeader."Document Type"::"Sales Order";
+        if InspectHeader."Document Type" = InspectHeader."Document Type"::"Sample QC" then
+            InspectReportHeader."Document Type" := InspectReportHeader."Document Type"::"Sample QC";
     end;
 
     [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterSalesShptLineInsert', '', false, false)]
@@ -57,7 +61,7 @@ codeunit 50001 MyCodeunit
                     InspectReportHeader.SETRANGE("Sales. Line No", InspectHeader."Sales. Line No");
                     InspectReportHeader.SETRANGE("Rework Reference No.", InspectHeader."Rework Reference No.");
                 end else
-                    if InspectHeader."Document Type" <> InspectHeader."Document Type"::"Code Transfer" then begin //QC1.1>>
+                    if InspectHeader."Document Type" <> InspectHeader."Document Type"::"Sample QC" then begin
                         InspectReportHeader.SETRANGE("Receipt No.", InspectHeader."Receipt No.");
                         InspectReportHeader.SETRANGE("Purch Line No", InspectHeader."Purch. Line No");
                         InspectReportHeader.SETRANGE("Lot No.", InspectHeader."Lot No.");

@@ -48,7 +48,8 @@ table 50000 "Sample B2B"
                 if Item.GET("Item No.") then begin
                     "Item Description" := Item.Description;
                     "Sample UOM" := Item."Base Unit of Measure";
-                    "Specification ID" := Item."Spec ID B2B";
+                    "Purchase Spec ID" := Item."Spec ID B2B";
+                    "Sales Spec ID" := Item."Sales Spec ID B2B";
                 end;
             end;
         }
@@ -137,9 +138,9 @@ table 50000 "Sample B2B"
             Editable = false;
             DataClassification = CustomerContent;
         }
-        field(13; "Specification ID"; Code[20])
+        field(13; "Purchase Spec ID"; Code[20])
         {
-            Caption = 'Specification ID';
+            Caption = 'Purchase Spec ID';
             TableRelation = "Specification Header B2B"."Spec ID";
             DataClassification = CustomerContent;
 
@@ -677,6 +678,11 @@ table 50000 "Sample B2B"
             Caption = 'Purchase Order No.';
             DataClassification = CustomerContent;
         }
+        field(71; "Sales Spec ID"; Code[20])
+        {
+            Caption = 'Sales Spec ID';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys
@@ -747,7 +753,7 @@ table 50000 "Sample B2B"
         ILE: Record "Item Ledger Entry";
     begin
         if Status = Status::" " then begin
-            TESTFIELD("Specification ID");
+            TESTFIELD("Sales Spec ID");
             TESTFIELD("Sample Qty");
             TestField("Applies-to ID");
             InspectDataSheets.CreateSampleInspectDataSheet(Rec);

@@ -7,6 +7,11 @@ tableextension 50001 ItemExtB2B extends Item
             Caption = 'Dispatch Qc';
             DataClassification = CustomerContent;
         }
+        field(50001; "Sales Spec ID B2B"; Code[20])
+        {
+            Caption = 'Sales Spec ID';
+            DataClassification = CustomerContent;
+        }
     }
 
     var

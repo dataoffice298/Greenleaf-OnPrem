@@ -3,13 +3,14 @@ report 50001 "Sample Dispatch Letter"
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultLayout = RDLC;
-    RDLCLayout = './SampleDispatchLetter.rdlc';
+    RDLCLayout = './SampleDispatchLetter.rdl';
     Caption = 'Sample Dispatch Letter';
 
     dataset
     {
         dataitem("Sales Header"; "Sales Header")
         {
+
             column(NoCap; NoCap)
             {
 
@@ -40,6 +41,10 @@ report 50001 "Sample Dispatch Letter"
             {
 
             }
+            column(Datecap; Datecap)
+            {
+
+            }
             column(Text000; Text000)
             {
 
@@ -53,7 +58,7 @@ report 50001 "Sample Dispatch Letter"
             {
 
             }
-            column(Sell_to_County; "Sell-to County")
+            column(Sell_to_Customer_Name; "Sell-to Customer Name")
             {
 
             }
@@ -61,19 +66,62 @@ report 50001 "Sample Dispatch Letter"
             {
 
             }
+
             column(Sell_to_Address_2; "Sell-to Address 2")
             {
 
             }
-            column(Ship_to_Code; "Ship-to Code")
+            column(City; Customer.City)
             {
 
             }
+            column(Post_Code; customer."Post Code")
+            {
+
+            }
+
+            column(Ship_to_Name; "Ship-to Name")
+            {
+
+            }
+            column(Ship_to_Address; "Ship-to Address")
+            { }
+            column(Ship_to_Address_2; "Ship-to Address 2")
+            {
+
+            }
+            column(Ship_to_City; "Ship-to City")
+            {
+
+            }
+            column(SampleDispatchLetterCap; SampleDispatchLetterCap)
+            {
+
+            }
+
+
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "Document Type" = FIELD("Document Type"), "Document No." = FIELD("No.");
+                DataItemTableView = WHERE(Type = CONST(Item));
                 DataItemLinkReference = "Sales Header";
                 column(SI1; SI1)
+                {
+
+                }
+                column(Type; Type)
+                {
+
+                }
+                column(Quantity; Quantity)
+                {
+
+                }
+                column(Unit_of_Measure; "Unit of Measure")
+                {
+
+                }
+                column(Description; Description)
                 {
 
                 }
@@ -92,6 +140,12 @@ report 50001 "Sample Dispatch Letter"
 
 
             }
+            trigger OnAfterGetRecord()
+            begin
+                if customer.Get("Sell-to Customer No.") then;
+
+
+            end;
 
 
 
@@ -130,9 +184,11 @@ report 50001 "Sample Dispatch Letter"
 
     var
         myInt: Integer;
+        Date: Date;
+        Customer: Record Customer;
         SI1: Integer;
         NoCap: Label 'No:';
-        NameCap: Label 'Name';
+        NameCap: Label 'Name:';
         ShipToCap: Label 'Ship To';
         SiCap: Label 'SI No';
         ItemNameCap: Label 'Item Name';
@@ -140,7 +196,8 @@ report 50001 "Sample Dispatch Letter"
         QuantityCap: Label 'Qty';
         RemarksCap: Label 'Remarks';
         SampleDispatchLetterCap: Label 'SAMPLE DESPATCH LETTER';
-        Text000: Label 'Dear Sir';
+        Datecap: Label 'Date:';
+        Text000: Label 'Dear Sir,';
         Text001: Label 'We hereby submit the following samples for your evaluation  and also look forward for your feedback.Please do get in touch with us in case you need any further action/clarification from our side';
 
 

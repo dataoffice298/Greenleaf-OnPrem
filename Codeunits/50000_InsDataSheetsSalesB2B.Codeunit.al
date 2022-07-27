@@ -471,6 +471,7 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
                     InspectDataHeader.VALIDATE("Posting Date", WORKDATE);
                     InspectDataHeader.VALIDATE("Document Date", WORKDATE);
                     InspectDataHeader.VALIDATE("Item No.", SampleGRec."Item No.");
+                    InspectDataHeader."Spec ID" := SampleGRec."Sales Spec ID";
                     ILEGRec.Get(SampleGRec."Applies-to ID");
                     IF ILEGRec."Lot No." <> '' THEN BEGIN
                         InspectDataHeader."Item Ledger Entry No." := SampleGRec."Applies-to ID";
