@@ -4,6 +4,11 @@ pageextension 50001 SalesOrderSubfromExtB2B extends "Sales Order Subform"
     {
         addafter("Shipment Date")
         {
+            field("Dispatch Qc"; Rec."Dispatch Qc")
+            {
+                ToolTip = 'Specifies the value of the Dispatch Qc field.';
+                ApplicationArea = All;
+            }
             field("Spec ID"; Rec."Spec ID")
             {
                 ToolTip = 'Specifies the value of the Spec ID field.';

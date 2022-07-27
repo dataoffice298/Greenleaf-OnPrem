@@ -11,6 +11,7 @@ tableextension 50001 ItemExtB2B extends Item
         {
             Caption = 'Sales Spec ID';
             DataClassification = CustomerContent;
+            TableRelation = "Specification Header B2B";
         }
     }
 
