@@ -94,7 +94,13 @@ tableextension 50000 "SalesLineExt B2B" extends "Sales Line"
             DataClassification = CustomerContent;
             Caption = 'Dispatch Qc';
         }
-
+        //B2BPAVON01AUG22>>
+        field(50000; Select; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Select';
+        }
+        //B2BPAVON01AUG22<<
     }
 
     var

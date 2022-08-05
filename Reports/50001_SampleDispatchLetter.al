@@ -4,19 +4,20 @@ report 50001 "Sample Dispatch Letter"
     ApplicationArea = All;
     DefaultLayout = RDLC;
     RDLCLayout = './SampleDispatchLetter.rdl';
-    Caption = 'Sample Dispatch Letter';
+    Caption = 'Sample Dispatch Letter_50001';
 
     dataset
     {
         dataitem("Sales Header"; "Sales Header")
         {
+            RequestFilterFields = "No.";
 
             column(NoCap; NoCap)
             {
 
             }
-            column(NameCap; NameCap)
-            { }
+
+
             column(ShipToCap; ShipToCap)
             {
 
@@ -58,6 +59,14 @@ report 50001 "Sample Dispatch Letter"
             {
 
             }
+            column(No_; "No.")
+            {
+
+            }
+            column(NameCap; NameCap)
+            {
+
+            }
             column(Sell_to_Customer_Name; "Sell-to Customer Name")
             {
 
@@ -94,7 +103,15 @@ report 50001 "Sample Dispatch Letter"
             {
 
             }
+            column(Ship_to_Post_Code; "Ship-to Post Code")
+            {
+
+            }
             column(SampleDispatchLetterCap; SampleDispatchLetterCap)
+            {
+
+            }
+            column(Sample_ID; "Sample ID")
             {
 
             }
@@ -186,19 +203,20 @@ report 50001 "Sample Dispatch Letter"
         myInt: Integer;
         Date: Date;
         Customer: Record Customer;
+
         SI1: Integer;
         NoCap: Label 'No:';
-        NameCap: Label 'Name:';
+        NameCap: Label 'Bild To:';
         ShipToCap: Label 'Ship To';
-        SiCap: Label 'SI No';
+        SiCap: Label 'SI. No.';
         ItemNameCap: Label 'Item Name';
         SampleCodeCap: Label 'Sample Code';
-        QuantityCap: Label 'Qty';
+        QuantityCap: Label 'Quantity';
         RemarksCap: Label 'Remarks';
         SampleDispatchLetterCap: Label 'SAMPLE DESPATCH LETTER';
         Datecap: Label 'Date:';
         Text000: Label 'Dear Sir,';
-        Text001: Label 'We hereby submit the following samples for your evaluation  and also look forward for your feedback.Please do get in touch with us in case you need any further action/clarification from our side';
+        Text001: Label 'We hereby submit the following samples for your evaluation  and also look forward for your feedback.Please do get in touch with us in case you need any further action/clarification from our side.';
 
 
 }

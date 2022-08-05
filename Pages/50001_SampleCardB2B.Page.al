@@ -277,47 +277,7 @@ page 50001 "Sample Card B2B"
             {
                 Caption = 'F&unctions';
                 Image = ReferenceData;
-                action("Create Vendor")
-                {
-                    ApplicationArea = all;
-                    Caption = 'Create Vendor';
-                    Image = CreateForm;
 
-                    trigger OnAction();
-                    begin
-                        Rec.TESTFIELD("Vendor Name");
-                        if Rec."Vendor No." <> '' then
-                            ERROR(Text002Lbl)
-                        else
-                            if CONFIRM(Text001Lbl) then begin
-                                Rec.TESTFIELD("QC Completed");
-                                "Purchases&PayablesSetup".GET();
-                                Vendor."No." := NoSeriesMgt.GetNextNo("Purchases&PayablesSetup"."Vendor Nos.", 0D, true);
-                                CreatedVendor := Vendor."No.";
-                                Vendor.VALIDATE(Name, Rec."Vendor Name");
-                                Vendor.VALIDATE(Name, Rec."Vendor Name");
-                                Vendor.VALIDATE(Address, Rec.Address);
-                                Vendor.VALIDATE("Address 2", Rec.Address2);
-                                Vendor.VALIDATE(City, Rec.City);
-                                Vendor.Contact := Rec.Contact;
-                                Vendor.VALIDATE("Phone No.", Rec."Phone No.");
-                                Vendor.VALIDATE("Telex No.", Rec."Telex No.");
-                                Vendor.VALIDATE("Post Code", Rec."Post Code");
-                                Vendor.VALIDATE("Country/Region Code", Rec."Country Code");
-                                Vendor.VALIDATE("Fax No.", Rec."Fax No.");
-                                Vendor.VALIDATE("Primary Contact No.", Rec."Primary Contact No.");
-                                Vendor.VALIDATE("E-Mail", Rec."E-Mail");
-                                Vendor.VALIDATE("Home Page", Rec."Home Page");
-                                Vendor.INSERT();
-                                Rec."Vendor Created" := true;
-                                MESSAGE(Text000Lbl, CreatedVendor);
-                                Rec."Vendor No." := CreatedVendor;
-                                CurrPage.UPDATE();
-                            end;
-
-                        CurrPage.UPDATE();
-                    end;
-                }
                 action("Create Inspection Data &Sheets")
                 {
                     ApplicationArea = all;
@@ -341,6 +301,59 @@ page 50001 "Sample Card B2B"
                             Rec.TESTFIELD("Vendor No.");
                         Rec.CreateInspectionDataSheets();
                     end;
+                }
+                action(Test)
+                {
+                    ApplicationArea = All;
+
+                    trigger OnAction()
+                    var
+                        ReserveEntry: Record "Reservation Entry";
+                    begin
+                        ReserveEntry.Reset();
+                        ReserveEntry.SetRange("Item No.", '70068');
+                        if ReserveEntry.FindSet() then
+                            ReserveEntry.DeleteAll();
+                    end;
+                }
+            }
+
+            group("&Navigate")
+            {
+                Caption = '&Navigate';
+                Image = Navigate;
+
+                action(InspectionDataSheets)
+                {
+                    Caption = 'Inspection Data Sheets';
+                    Image = History;
+                    ApplicationArea = All;
+                    RunObject = page "Inspection Data Sheet List B2B";
+                    RunPageLink = "Sample ID" = field("Sample ID");
+                }
+                action(PostedInspectionDataSheets)
+                {
+                    Caption = 'Posted Inspection Data Sheets';
+                    Image = History;
+                    ApplicationArea = All;
+                    RunObject = page "Posted Ins DataSheet List B2B";
+                    RunPageLink = "Sample ID" = field("Sample ID");
+                }
+                action(InspectionReceipts)
+                {
+                    Caption = 'Inspection Receipts';
+                    Image = History;
+                    ApplicationArea = All;
+                    RunObject = page "Inspection Receipt List B2B";
+                    RunPageLink = "Sample ID" = field("Sample ID");
+                }
+                action(PostedInspectionReceipts)
+                {
+                    Caption = 'Posted Inspection Receipts';
+                    Image = History;
+                    ApplicationArea = All;
+                    RunObject = page "Posted Ins Receipt List B2B";
+                    RunPageLink = "Sample ID" = field("Sample ID");
                 }
             }
         }

@@ -39,7 +39,22 @@ pageextension 50001 SalesOrderSubfromExtB2B extends "Sales Order Subform"
                 ToolTip = 'Specifies the value of the Qty. Sent To Quality field.';
                 ApplicationArea = All;
             }
-
+        }
+        addbefore("No.")
+        {
+            //B2BPAVON01AUG22>>
+            field(Select; Rec.Select)
+            {
+                ApplicationArea = All;
+            }
+            //B2BPAVON01AUG22<<
+        }
+        addafter(Quantity)
+        {
+            field("Qty. per Unit of Measure"; Rec."Qty. per Unit of Measure")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 

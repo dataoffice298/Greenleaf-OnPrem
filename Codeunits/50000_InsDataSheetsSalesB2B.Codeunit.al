@@ -473,15 +473,20 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
                     InspectDataHeader.VALIDATE("Item No.", SampleGRec."Item No.");
                     InspectDataHeader."Spec ID" := SampleGRec."Sales Spec ID";
                     ILEGRec.Get(SampleGRec."Applies-to ID");
-                    IF ILEGRec."Lot No." <> '' THEN BEGIN
-                        InspectDataHeader."Item Ledger Entry No." := SampleGRec."Applies-to ID";
+                    IF ILEGRec."Lot No." <> '' THEN begin
                         InspectDataHeader."Lot No." := ILEGRec."Lot No.";
                         InspectDataHeader."Item Tracking Exists" := TRUE;
-                    END;
+                    end;
+                    ItemLedgEntry1.INIT();
+                    ItemLedgEntry1.TRANSFERFIELDS(ILEGRec);
+                    ItemLedgEntry1.INSERT();
+                    InspectDataHeader."Item Ledger Entry No." := SampleGRec."Applies-to ID";
+                    InspectDataHeader.Validate(Location, ILEGRec."Location Code");
                     InspectDataHeader."Prod. Order No." := ILEGRec."Order No.";
                     InspectDataHeader."Prod. Order Line" := ILEGRec."Order Line No.";
                     InspectDataHeader.VALIDATE(Quantity, ROUND(SampleGRec."Sample Qty", 0.01, '>'));
                     InspectDataHeader."Item Ledger Entry No." := SampleGRec."Applies-to ID";
+                    InspectDataHeader."Receipt No." := SampleGRec."Receipt No.";
                 end;
         //B2BSample1.0<<
         end;

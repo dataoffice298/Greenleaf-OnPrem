@@ -7,6 +7,11 @@ tableextension 50004 PostedInsDataSheetHdrExtB2B extends "Posted Ins DatasheetHe
             Caption = 'Sales. Line No';
             DataClassification = CustomerContent;
         }
+        field(50001; "Sample ID"; Code[20])
+        {
+            Caption = 'Sample ID';
+            DataClassification = CustomerContent;
+        }
     }
 
     var

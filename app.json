@@ -15,6 +15,12 @@
       "publisher": "B2B Software Technologies Limited",
       "name": "B2B Quality Control",
       "version": "1.0.0.4"
+    },
+    {
+      "id": "db643212-b7fb-4dd4-b5a8-cb44ac714461",
+      "publisher": "Microsoft",
+      "name": "India GST",
+      "version": "20.2.41144.41423"
     }
   ],
   "screenshots": [],

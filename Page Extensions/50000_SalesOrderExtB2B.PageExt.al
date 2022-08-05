@@ -35,9 +35,48 @@ pageextension 50000 SalesOrderPageExtB2B extends "Sales Order"
                         CurrPage.SalesLines.PAGE.CreateInspecDataSheets();
                     end;
                 }
+
+                action("Print NDGR DTDC")
+                {
+                    ApplicationArea = All;
+                    Image = PrintAcknowledgement;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    trigger OnAction()
+                    var
+                        SaleHeader: Record "Sales Header";
+                    begin
+                        SaleHeader.Reset();
+                        SaleHeader.SetRange("No.", Rec."No.");
+                        Report.RunModal(50002, true, false, SaleHeader);
+                    end;
+                }
+
+                action("Print NDGR DHL")
+                {
+                    ApplicationArea = All;
+                    Image = PrintAcknowledgement;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    trigger OnAction()
+                    var
+                        SaleHeader: Record "Sales Header";
+                    begin
+                        SaleHeader.Reset();
+                        SaleHeader.SetRange("No.", Rec."No.");
+                        Report.RunModal(50004, true, false, SaleHeader);
+                    end;
+                }
+
             }
+
         }
+
+
+
+
     }
+
 
     var
         myInt: Integer;

@@ -681,7 +681,13 @@ table 50000 "Sample B2B"
         field(71; "Sales Spec ID"; Code[20])
         {
             Caption = 'Sales Spec ID';
+            TableRelation = "Specification Header B2B"."Spec ID";
             DataClassification = CustomerContent;
+
+            trigger OnValidate();
+            begin
+                TestStauts();
+            end;
         }
     }
 
