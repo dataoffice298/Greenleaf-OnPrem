@@ -11,7 +11,7 @@ pageextension 50006 PostedSalesInvB2B extends "Posted Sales Invoice"
         {
             action(SampleInvoice)
             {
-                Caption = 'SampleInvoice';
+                Caption = 'Sample Invoice';
                 Image = Print;
                 Promoted = true;
                 ApplicationArea = all;

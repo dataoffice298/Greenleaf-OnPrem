@@ -1,13 +1,5 @@
 report 50122 "Sample Invoice"
 {
-    // version B2B
-
-    // 
-    // .............................................
-    //  Name           : PT SathishG
-    //  Date           : 10-07-13
-    //  Description    : Proforma Invoice
-    // ..............................................
     DefaultLayout = RDLC;
     RDLCLayout = './SampleInvoice.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -174,23 +166,12 @@ report 50122 "Sample Invoice"
             {
 
             }
-
-
-            /* column(EnvoiceEntry_IRNNo; EnvoiceEntry."IRN No.")
-             {
-             }
-             column(EnvoiceEntry_QRCode; EnvoiceEntry."QR Code")
-             {
-             }*/
             column(PaymentTermsCode_SalesInvoiceHeader; PaymentTerms2.Description)
             {
             }
             column(CurrencyCode_SalesInvoiceHeader; "Sales Invoice Header"."Currency Code")
             {
             }
-            /*column(GST_Customer_Type; "GST Customer Type")
-            {
-            }*/
             column(InvNo; "No.")
             {
             }
@@ -203,9 +184,6 @@ report 50122 "Sample Invoice"
             column(InvDocDate; "Order Date")
             {
             }
-            /*  column(CustPONo; "Customer PO No.")
-              {
-              }*/
             column(CustName; CustName)
             {
             }
@@ -237,99 +215,9 @@ report 50122 "Sample Invoice"
             column(CustSTC; CustSTC)
             {
             }
-            /*  column(CompName; CompInfo."Div1 Name")
-              {
-              }
-              column(CompName2; CompInfo."Div1 Name 2")
-              {
-              }
-              column(CompName3; CompInfo."Div1 Name 3")
-              {
-              }
-              column(CompAddress; CompInfo."Div1 Address")
-              {
-              }
-              column(CompAddress2; CompInfo."Div1 Address 2")
-              {
-              }
-              column(CompCity; CompInfo."Div1 City")
-              {
-              }
-              column(CompPostCode; CompInfo."Div1 Post Code")
-              {
-              }*/
             column(CompInfo; CompInfo.Picture)
             {
             }
-            /* column(CompVAT; CompInfo."Div1 VAT Registration No.")
-             {
-             }
-             column(CompCST; CompInfo."Div1 C.S.T No.")
-             {
-             }
-             column(CompPAN; CompInfo."Div1 P.A.N. No.")
-             {
-             }
-             column(CompSTC; CompInfo."Div1 Service Tax Reg. No.")
-             {
-             }
-             column(CINNO; CompInfo."Div1 CIN No.")
-             {
-             }
-             column(CompServCategory; CompInfo."Div1 Service Category")
-             {
-             }
-             column(BeneficiaryName; CompInfo."Div1 Beneficiary Name")
-             {
-             }
-             column(AccountNo; CompInfo."Div1 Account No.")
-             {
-             }
-             column(BeneficiaryBank; CompInfo."Div1 Beneficiary Bank")
-             {
-             }
-             column(BeneficiaryBranch; CompInfo."Div1 Beneficiary Branch")
-             {
-             }
-             column(AccountType; CompInfo."Div1 Account Type")
-             {
-             }
-             column(IFSCCode; CompInfo."Div1 IFSC Code")
-             {
-             }
-             column(CompInfo_ForeignBeneficiaryName; CompInfo."Foreign Beneficiary Name")
-             {
-             }
-             column(CompInfo_ForeignACCOUNTNo; CompInfo."Foreign ACCOUNT No.")
-             {
-             }
-             column(CompInfo_ForeignBeneficiaryBank; CompInfo."Foreign Beneficiary  Bank")
-             {
-             }
-             column(CompInfo_ForeignBeneficiaryBranch; CompInfo."Foreign Beneficiary Branch")
-             {
-             }
-             column(CompInfo_ForeignSWIFTCODE; CompInfo."Foreign SWIFT CODE")
-             {
-             }
-             column(CompInfo_ForeignROUTINGWITH; CompInfo."Foreign ROUTING WITH")
-             {
-             }
-             column(CompInfo_ForeignACCOUNTNo2; CompInfo."Foreign ACCOUNT No2.")
-             {
-             }
-             column(CompInfo_ForeignSWIFTCODE2; CompInfo."Foreign SWIFT CODE2")
-             {
-             }
-             column(CompInfo_AuthorisedSignature; CompInfo."Authorised Signature")
-             {
-             }
-             column(CompInfo_CIN_No; 'CIN - ' + CompInfo."CIN No.")
-             {
-             }*/
-            /*column(CompInfo_GST_Registration_No; 'GST No. ' + CompInfo."GST Registration No.")
-            {
-            }*/
             column(Customer_GST_Reg__No_; "Customer GST Reg. No.")
             { }
             column(Vehicle_No_; "Vehicle No.")
@@ -430,18 +318,6 @@ report 50122 "Sample Invoice"
             column(IsGSTApplicable; IsGSTApplicable)
             {
             }
-            /*column(CustRec_GST_Registration_No; CustRec."GST Registration No.")
-            {
-            }*/
-            /*column(CustRec_P_A_N_No; CustRec."P.A.N. No.")
-            {
-            }*/
-            /* column(CustRecGSTLUTNo; CustRec."GST LUT No.")
-             {
-             }
-             column(CustRecGSTLUTCertDate; CustRec."GST LUT Cert Date")
-             {
-             }*/
             column(PaymentTerms_Description; PaymentTerms.Description)
             {
             }
@@ -475,13 +351,6 @@ report 50122 "Sample Invoice"
             column(Code_Caption; Code_CaptionLbl)
             {
             }
-            /*column(GSTBilltoStateCode_SalesHeader; "GST Bill-to State Code")
-            {
-            }*/
-            /* column(StateGRec_StateCodeGSTRegNo; StateGRec."State Code (GST Reg. No.)")
-             {
-             }*/
-
             column(ShowBankDetails; ShowBankDetails)
             {
             }
@@ -500,7 +369,7 @@ report 50122 "Sample Invoice"
                         DataItemLinkReference = "Sales Invoice Header";
                         DataItemTableView = SORTING("Document No.", "Line No.")
                                             ORDER(Ascending)
-                                            WHERE(Quantity = FILTER(> 0));
+                                            WHERE(Quantity = FILTER(> 0));//, Select = const(true)
                         column(DocumentNo_SalesLine; "Sales Invoice Line"."Document No.")
                         {
                         }
@@ -516,9 +385,6 @@ report 50122 "Sample Invoice"
                         column(ShowExtDesc; ShowExtDesc)
                         {
                         }
-                        // column(ExtendedDescription_SalesInvoiceLine; "Sales Invoice Line"."Extended Description")
-                        // {
-                        // }
                         column(Quantity; Quantity)
                         {
                         }
@@ -528,18 +394,14 @@ report 50122 "Sample Invoice"
                         column(UnitofMeasure; UOMUSDAmt)
                         {
                         }
+                        column(Unit_of_Measure_Code; "Unit of Measure Code")
+                        { }
                         column(PerUOM; PerUOM)
                         {
                         }
                         column(LineAmount; "Line Amount")
                         {
                         }
-                        /*column(StartingDate_SalesLine; "Starting Date")
-                        {
-                        }
-                        column(EndingDate_SalesLine; "Ending Date")
-                        {
-                        }*/
                         column(SalesType_SalesLine; SalTypeDes)
                         {
                         }
@@ -614,9 +476,6 @@ report 50122 "Sample Invoice"
                         column(netamtvar1; netamtvar1)
                         {
                         }
-                        /*column(HSNSACCode_SalesLine; "HSN/SAC Code")
-                        {
-                        }*/
                         column(QtyGVar; QtyGVar)
                         {
                         }
@@ -641,6 +500,10 @@ report 50122 "Sample Invoice"
                         column(SEZGSTAmnt; SEZGSTAmnt)
                         {
                         }
+                        column(QtyPerUnit; QtyPerUnit)
+                        { }
+                        column(Line_Amount; "Line Amount")
+                        { }
 
                         trigger OnAfterGetRecord();
                         var
@@ -650,19 +513,6 @@ report 50122 "Sample Invoice"
 
                             if "Sales Invoice Line"."no." = 'FC830980' then //BUGFIX
                                 CurrReport.skip;//BUGFIX  //  Rounding line skipped.
-                                                //B2B1.0JM>>
-                                                /* IF ("Sales Invoice Line".Type = "Sales Invoice Line".Type::"G/L Account") THEN BEGIN
-                                                     DefferedOrderSetupGRec.RESET;
-                                                     DefferedOrderSetupGRec.SETRANGE("Sale Type", "Sales Invoice Line"."Sales Type");
-                                                     IF DefferedOrderSetupGRec.FINDFIRST THEN BEGIN
-                                                         IF ((DefferedOrderSetupGRec."Sales Account" = "Sales Invoice Line"."No.") OR (DefferedOrderSetupGRec."Revenue Account Sales" = "Sales Invoice Line"."No.") OR
-                                                          (DefferedOrderSetupGRec."Deffered Account Sales" = "Sales Invoice Line"."No.") OR (DefferedOrderSetupGRec."Revenue Account Maintenance" = "Sales Invoice Line"."No.") OR
-                                                          (DefferedOrderSetupGRec."Deffered Account Maintenance" = "Sales Invoice Line"."No.")) THEN
-                                                             CurrReport.SKIP;
-                                                     END ELSE
-                                                         CurrReport.SKIP;
-                                                 END;*/
-                                                //B2B1.0JM<<
 
                             IF "Sales Invoice Line".Quantity <> 0 THEN
                                 sno += 1;
@@ -671,41 +521,14 @@ report 50122 "Sample Invoice"
                             CLEAR(lindismat);
                             CLEAR(periodboolean);
                             CLEAR(netamtvar);
-                            CLEAR(QtyGVar);
                             CLEAR(Rate);
                             CLEAR(AmountGVar);
                             clear(SEZGSTAmnt);//BUGFIX
-
                             clear(SEZGSTPer);//BUGFIX
-
-                            // LICENSE1.0 >>
-
-
-
-
-
                             CLEAR(ShowExtDesc);
-                            // IF "Sales Invoice Line"."Extended Description" <> '' THEN
-                            //     ShowExtDesc := TRUE;
-
                             CLEAR(SalTypeDes);
-                            // IF (Type = Type::Item) AND ("Sales Invoice Line"."No." <> 'USD CLAUSE') THEN
-                            //     SalTypeDes := "Sales Invoice Line"."Sales Type";
 
                             SalesInvHeader.GET("Document No.");
-                            // SalesInvHeader.Reset();
-                            // SalesInvHeader."Partial Billing" := true;
-                            /* IF NOT SalesInvHeader."Partial Billing" THEN BEGIN
-                                 //IF  (Type = Type::Item)  THEN
-                                 QtyGVar := Quantity;
-                                 Rate := "Unit Price";
-                             END ELSE BEGIN
-                                 QtyGVar := "Sales Invoice Line"."Partial Billing Quantity";
-
-                                 IF ("Sales Invoice Line".Quantity <> 0) AND ("Partial Billing Quantity" <> 0) THEN
-                                     Rate := ("Sales Invoice Line".Quantity / "Sales Invoice Line"."Partial Billing Quantity") * "Sales Invoice Line"."Unit Price";
-                             END;*/
-
 
                             IF (SlNo >= vtemp) AND (SlNo <= vtemp1) THEN BEGIN
                                 salesInvline1.RESET;
@@ -713,34 +536,7 @@ report 50122 "Sample Invoice"
                                 salesInvline1.SETRANGE("Line No.", "Line No.");
                                 IF salesInvline1.FINDFIRST THEN;
 
-                                /*DefferedOrderSetup.RESET;
-                                DefferedOrderSetup.SETRANGE(DefferedOrderSetup."Sale Type", "Sales Type");
-                                IF DefferedOrderSetup.FINDFIRST THEN
-                                    IF DefferedOrderSetup."Print Period" = TRUE THEN
-                                        periodboolean := TRUE
-                                    ELSE
-                                        periodboolean := FALSE;*/
-
                                 lindismat := -(ROUND("Line Discount Amount", 1));
-
-                                // IF "Partial Billing Quantity" <> 0 THEN
-                                //     lindiscountamt := -("Line Discount Amount" / "Partial Billing Quantity")
-                                // ELSE
-                                //     lindiscountamt := -("Line Discount Amount");
-
-                                // lindismat := - ( ROUND("Sales Line"."Line Discount Amount",0.001));
-                                //12-DEC
-                                /*   IF SalesInvHeader."Partial Billing" THEN BEGIN
-                                       IF "Sales Invoice Header"."Currency Code" <> '' THEN
-                                           netamtvar := (QtyGVar * Rate) * ExchRate1
-                                       ELSE
-                                           netamtvar := (QtyGVar * Rate);
-                                   END ELSE BEGIN
-                                       IF "Sales Invoice Header"."Currency Code" <> '' THEN
-                                           netamtvar := ROUND((QtyGVar) * ("Unit Price"), 1) * ExchRate1
-                                       ELSE
-                                           netamtvar := ROUND((QtyGVar) * ("Unit Price"), 1);
-                                   END;*/
 
                                 netamtvar1 += ROUND(netamtvar, 1);
 
@@ -749,11 +545,6 @@ report 50122 "Sample Invoice"
                                 END ELSE BEGIN
                                     boolcheck := FALSE;
                                 END;
-
-                                /* IF SalesInvHeader."Partial Billing" THEN
-                                     netamtvar2 := (QtyGVar * Rate)
-                                 ELSE
-                                     netamtvar2 := ROUND((QtyGVar) * ("Unit Price"), 1);*/
 
                                 CLEAR(PerUOM);
                                 IF "Sales Invoice Header"."Currency Code" <> '' THEN BEGIN
@@ -766,20 +557,12 @@ report 50122 "Sample Invoice"
                             END ELSE BEGIN
                                 CurrReport.SKIP;
                             END;
-                            // LICENSE1.0 <<
-                            // GSTSetup.get();
-                            //GetGSTAmounts(TaxTransactionValue, "Sales Invoice Line", GSTSetup);
-                            // GetGSTAmount("Sales Invoice Header", "Sales Invoice Line");
                             GetGSTbaseAmount("Sales Invoice Header", "Sales Invoice Line");//BUGFIX
 
                             GetTDSAmt("Sales Invoice Header", "Sales Invoice Line");
-                            //TotalGstGVar += CGSTAmt + SGSTAmt + IGSSTAmt;
-                            // CGSTRate := (CGSTAmt / "Sales Invoice Line".Quantity) * QtyGVar; //BUGFIX
+
                             CGSTRate := CGSTAmt; //BUGFIX
-                                                 //  Message('%1,%2,%3', CGSTAmt, "Sales Line".Quantity, QtyGVar);
-                                                 //SGSTRate := (SGSTAmt / "Sales Invoice Line".Quantity) * QtyGVar;//BUGFIX
                             SGSTRate := SGSTAmt;//BUGFIX
-                            //IGSTRate := (IGSSTAmt / "Sales Invoice Line".Quantity) * QtyGVar;//BUGFIX
                             IGSTRate := IGSSTAmt;//BUGFIX
                             //B2BUPG1.0>>
                             if "Sales Invoice Header"."Currency Code" <> '' then begin
@@ -789,9 +572,10 @@ report 50122 "Sample Invoice"
                             end;
                             TotalGstGVar := CGSTRate + SGSTRate + IGSTRate;
                             //B2BUPG1.0<<
+                            LineTotal += "Line Amount";
                             GrandTotal := Round(LineTotal + CGSTRate + SGSTRate + IGSTRate, 1);
-                            //ChckReport.InitTextVariable();
-                            //ChckReport.FormatNoText(NumToText, GrandTotal, "Sales Invoice Header"."Currency Code");
+                            Chck.InitTextVariable();
+                            Chck.FormatNoText(NumToText, LineTotal, "Sales Invoice Header"."Currency Code");
                             //10DEC 2019 <<
 
                             /* IF "Sales Invoice Header"."Currency Code" <> '' THEN BEGIN
@@ -806,6 +590,34 @@ report 50122 "Sample Invoice"
                                 USDClauseGVar := FALSE
                             ELSE
                                 USDClauseGVar := TRUE;
+
+                            //Get Quantity on specific condition
+                            Clear(QtyGVar);
+                            Clear(TotalQtyPerUnit);
+                            Clear(QtyPerUnit);
+
+                            //To get the sum of qty. per unit for all lines.
+                            SalesInvoiceLineGRec.Reset();
+                            SalesInvoiceLineGRec.SetRange("Document No.", "Document No.");
+                            SalesInvoiceLineGRec.SetFilter("No.", '<>%1', '');
+                            if SalesInvoiceLineGRec.FindSet() then
+                                repeat
+                                    TotalQtyPerUnit += SalesInvoiceLineGRec.Quantity * SalesInvoiceLineGRec."Qty. per Unit of Measure";
+                                until SalesInvoiceLineGRec.Next() = 0;
+
+                            //To get the sum of quantity for selected lines.
+                            SalesInvoiceLineGRec.Reset();
+                            SalesInvoiceLineGRec.SetRange("Document No.", "Document No.");
+                            SalesInvoiceLineGRec.SetRange(Select, true);
+                            SalesInvoiceLineGRec.SetFilter("No.", '<>%1', '');
+                            if SalesInvoiceLineGRec.FindSet() then begin
+                                SalesInvoiceLineGRec.CalcSums(Quantity);
+                                QtyGVar := SalesInvoiceLineGRec.Quantity;
+                            end;
+
+                            //Qty. per each item
+                            if QtyGVar <> 0 then
+                                QtyPerUnit := Round(TotalQtyPerUnit / QtyGVar, 0.1);
 
                         end;
 
@@ -847,7 +659,7 @@ report 50122 "Sample Invoice"
 
             trigger OnAfterGetRecord();
             begin
-                //  IsGSTApplicable := GSTManagement.IsGSTApplicable(Structure);//B2BGST1.0
+
                 CustRec.RESET;
                 CustRec.SETRANGE(CustRec."No.", "Sell-to Customer No.");
                 IF CustRec.FINDFIRST THEN BEGIN
@@ -857,44 +669,15 @@ report 50122 "Sample Invoice"
                     CustCity := CustRec.City;
                     CustPostCode := CustRec."Post Code";
                     CusPhNo := CustRec.Contact;
-                    //CustVAT := CustRec."T.I.N. No.";
-                    //  CustCST := CustRec."C.S.T. No.";
-                    //  CustPAN := CustRec."P.A.N. No.";
                     CustTaxLiable := CustRec."Tax Liable";
-                    //  SEZRemarks1 := CustRec."SEZ Remarks 1";
-                    //SEZRemarks2 := CustRec."SEZ Remarks 2";
-                    //CustSTC:=
                 END;
 
                 CustRec1.Reset;
                 CustRec1.SetRange(CustRec1."No.", "Bill-to Customer No.");
                 If CustRec1.FindFirst() then;
 
-
-                /*     IRNNoCaptionLVar := '';
-                     IF EnvoiceEntry.GET(EnvoiceEntry."Document Type"::"Sales Invoice", "Sales Invoice Header"."No.") THEN BEGIN
-                         EnvoiceEntry.CALCFIELDS("QR Code");
-                         IF EnvoiceEntry."IRN No." <> '' THEN
-                             IRNNoCaptionLVar := 'IRN No.';
-                     END;*/
-
                 CLEAR(Heading2Text);
                 CLEAR(ShowSezDes);
-                /* IF "Sales Invoice Header".Structure = 'EXPORT-LUT' THEN
-                   Heading2Text := Text001
-                 ELSE IF "Sales Invoice Header".Structure = 'SEZ' THEN BEGIN
-                   Heading2Text := Text002;
-                   ShowSezDes := TRUE;
-                 END ELSE IF "Sales Invoice Header".Structure = 'SALES RCM' THEN
-                     Heading2Text := Text003
-                 ELSE
-                     Heading2Text := '';*/
-                //B2BUPG1.0>>
-                /*  IF "Sales Invoice Header"."GST Customer Type" = "Sales Invoice Header"."GST Customer Type"::"SEZ Unit" THEN BEGIN
-                      Heading2Text := Text002;
-                      ShowSezDes := TRUE;
-                  end;*/
-                //B2BUPG1.0<<
 
                 CLEAR(ShowBankDetails);
                 CLEAR(RateCaption);
@@ -914,74 +697,11 @@ report 50122 "Sample Invoice"
                 IF "Sales Invoice Header"."Currency Factor" > 0 THEN
                     ExchRate1 := (1 / "Sales Invoice Header"."Currency Factor");
 
-                SalesInvLine2.RESET;
-                SalesInvLine2.SETRANGE("Document No.", "No.");
-                //SalesInvLine2.SETFILTER("Service Tax Group", '<>%1', '');
-                /* IF SalesInvLine2.FINDFIRST THEN BEGIN
-                   ServTaxSetup.RESET;
-                   ServTaxSetup.SETRANGE(ServTaxSetup.Code,SalesInvLine2."Service Tax Group");
-                   ServTaxSetup.SETFILTER(ServTaxSetup."From Date",'<=%1',"Posting Date");
-                   IF ServTaxSetup.FINDLAST THEN BEGIN
-                     ServTaxPer:=ServTaxSetup."Service Tax %";
-                     IF ServTaxSetup."SB Cess %" <>0 THEN BEGIN
-                       SBCessPer:=ServTaxSetup."SB Cess %";////
-                       NewSerTaxPer:=ServTaxPer-SBCessPer;////
-                     END ELSE
-                       NewSerTaxPer:=ServTaxPer;////
-                     SerTaxEcessPer:=ServTaxSetup."eCess %";
-                     SerTaxSheCessPer:=ServTaxSetup."SHE Cess %";
-                   END;
-                 END;*/
-                //new bock
-                //BUGFIX>>
-                /* if "Sales Invoice Header"."Deffered Order" then begin
-                     SalesInvLine.RESET;
-                     SalesInvLine.SETRANGE(SalesInvLine."Document No.", "No.");
-                     SalesInvLine.SetRange(Type, SalesInvLine.Type::Item);
-                     if SalesInvLine.findfirst then
-                         ItemLinesExist := true;
-                 end;*/
-                //BUGFIX<<
-
                 linecount := 0;
                 SalesInvLine.RESET;
                 SalesInvLine.SETRANGE(SalesInvLine."Document No.", "No.");
-                /*if ("Sales Invoice Header"."Deffered Order") and (ItemLinesExist) then
-                    SalesInvLine.SetRange(Type, SalesInvLine.Type::Item);
-                SalesInvLine.setfilter("No.", '<>%1', 'FC830980'); // Rounding account not considered
-                IF SalesInvLine.FINDFIRST THEN
-                    REPEAT
-                        //LICENSE1.0 >>
-                        IF "Sales Invoice Header"."Currency Code" = '' THEN BEGIN
-                            Linetotal1 += ROUND(SalesInvLine."Line Amount", 1);
-                            LineTotal += ROUND(SalesInvLine."Line Amount", 1);
-                        END ELSE BEGIN
-                            Linetotal1 += ROUND(SalesInvLine."Line Amount", 1) * ExchRate1;
-                            LineTotal += ROUND(SalesInvLine."Line Amount", 1) * ExchRate1;
-                        END;*/
 
-                // Linetotal1 += ROUND(((SalesLine."Line Amount" * SalesLine."Qty. to Ship")/SalesLine.Quantity),1);  //jm
-                //LineTotal +=  ((SalesLine."Line Amount" * SalesLine."Qty. to Ship")/SalesLine.Quantity); //jm
-
-                //LICENSE1.0 <<
-                // SerTaxBaseAmt += ROUND(SalesInvLine."Service Tax Base",1);////
-                // ServiceTaxTotal += ROUND(SalesInvLine."Service Tax Amount", 1);
-                // EshesTotal += ROUND(SalesInvLine."Service Tax eCess Amount", 1);
-                // SheshesTotal += ROUND(SalesInvLine."Service Tax SHE Cess Amount", 1);
-                ////
-                //IF SBCessPer <> 0 THEN
-                //  SBCessTotal += ROUND((Linetotal1*(SBCessPer)/100),1);
-                //IF SBCessTotal <>0 THEN
-                //ServiceTaxTotal -= SBCessTotal;
-                //ERROR('%1 - %2 - %3',ServiceTaxTotal,SBCessTotal,SBCessPer);
-                ////
-
-                // TaxAmt += ROUND(SalesInvLine."Tax Amount",1);
-                //CustSTC:=SalesLine."Service Tax Group";
                 linecount += 1;
-                //TaxPer:=salesline;
-
-                //UNTIL SalesInvLine.NEXT = 0;
 
                 TaxTotal := ROUND(TaxAmt, 1);
 
@@ -989,34 +709,12 @@ report 50122 "Sample Invoice"
                 PaymentTerms.SETRANGE(PaymentTerms.Code, "Payment Terms Code");
                 IF PaymentTerms.FINDFIRST THEN
                     PaymentTrms := PaymentTerms.Description;
-                /*
-                SalesLine2.RESET;
-                SalesLine2.SETRANGE(SalesLine2."Document No.","Sales Header"."No.");
-                SalesLine2.SETRANGE(SalesLine2."Document Type","Sales Header"."Document Type");
-                SalesLine2.SETFILTER(SalesLine2."Service Tax Group",'<>%1','');
-                IF SalesLine2.FINDFIRST THEN BEGIN
-                  ServTaxSetup.RESET;
-                  ServTaxSetup.SETRANGE(ServTaxSetup.Code,SalesLine2."Service Tax Group");
-                  ServTaxSetup.SETFILTER(ServTaxSetup."From Date",'<=%1',"Sales Header"."Posting Date");
-                  IF ServTaxSetup.FINDLAST THEN BEGIN
-                    ServTaxPer:=ServTaxSetup."Service Tax %";
-                    IF ServTaxSetup."SB Cess %" <>0 THEN BEGIN
-                      SBCessPer:=ServTaxSetup."SB Cess %";////
-                      NewSerTaxPer:=ServTaxPer-SBCessPer;////
-                    END;
-                    SerTaxEcessPer:=ServTaxSetup."eCess %";
-                    SerTaxSheCessPer:=ServTaxSetup."SHE Cess %";
-                  END;
-                END;
-                */
 
                 SalesInvLine2.RESET;
                 SalesInvLine2.SETRANGE(SalesInvLine2."Document No.", "No.");
-                //SalesLine2.SETRANGE(SalesLine2."Document Type","Document Type");
-                //SalesInvLine2.SETFILTER(SalesInvLine2."Tax %",'<>%1',0);
                 SalesInvLine2.SETFILTER(SalesInvLine2."Tax Area Code", '<>%1', '');
                 IF SalesInvLine2.FINDFIRST THEN BEGIN
-                    // TaxPercent:=SalesInvLine2."Tax %";
+
                     TaxArea.RESET;
                     TaxArea.SETRANGE(TaxArea.Code, SalesInvLine2."Tax Area Code");
                     IF TaxArea.FINDFIRST THEN BEGIN
@@ -1098,10 +796,8 @@ report 50122 "Sample Invoice"
 
                 GrandTotal := LineTotal + ROUND((ServiceTaxTotal + EshesTotal + SheshesTotal), 1) + TaxTotal + SBCessTotal + ABS(GSTCompAmount[1]) + ABS(GSTCompAmount[2]) + ABS(GSTCompAmount[3]) + ABS(GSTCompAmount[4]); //B2BGST1.0
                 GrandTotal1 := ROUND(GrandTotal, 1);
-                IF "Sales Invoice Header"."Currency Code" = '' THEN BEGIN
-                    Chck.InitTextVariable;
-                    Chck.FormatNoText(NumToText, ROUND(GrandTotal, 1), "Currency Code");
-                END;
+                //Chck.InitTextVariable;
+                //Chck.FormatNoText(NumToText, ROUND(LineTotal, 1), "Currency Code");
 
                 cnt := 0;
                 cnt2 := 0;
@@ -1121,50 +817,8 @@ report 50122 "Sample Invoice"
                         ;
                     END;
 
-                // IF StateGRec.GET("GST Bill-to State Code") THEN;
-
-
                 CLEAR(SEZGSTPer);
                 CLEAR(SEZGSTAmnt);
-
-
-
-                /* IF (Structure = 'SEZ') AND ("GST Bill-to State Code" <> '') AND ("Location State Code"<>'') THEN BEGIN
-                    SalesInvLine3.RESET;
-                    SalesInvLine3.SETRANGE("Document No.","No.");
-                    SalesInvLine3.SETFILTER("GST Group Code",'<>%1','');
-                    SalesInvLine3.SETFILTER(SalesInvLine3.Quantity,'<>%1',0); //jm
-                    IF SalesInvLine3.FINDFIRST THEN BEGIN
-                    //REPEAT
-                     IF "Location State Code" <> "GST Bill-to State Code" THEN BEGIN
-                        GSTSetup.RESET;
-                        GSTSetup.SETRANGE("GST State Code","GST Bill-to State Code");
-                        GSTSetup.SETRANGE("GST Group Code",SalesInvLine3."GST Group Code");
-                        GSTSetup.SETFILTER("GST Component",'=%1','IGST');
-                        IF GSTSetup.FINDFIRST THEN BEGIN
-                         SEZGSTPer := FORMAT(GSTSetup."GST Component %")+'%' ;
-                         //SEZGSTAmnt += SalesInvLine3."Line Amount"*(GSTSetup."GST Component %"/100);
-                         SEZGSTAmnt += Linetotal1 *(GSTSetup."GST Component %"/100);
-                        END;
-                     END ELSE BEGIN
-                        GSTSetup.RESET;
-                        GSTSetup.SETRANGE("GST State Code","GST Bill-to State Code");
-                        GSTSetup.SETRANGE("GST Group Code",SalesInvLine3."GST Group Code");
-                        GSTSetup.SETRANGE("GST Component",'<>%1','IGST');
-                        IF GSTSetup.FINDSET THEN BEGIN
-                         REPEAT
-                           SEZGSTAmnt += GSTSetup."GST Component %"
-                         UNTIL GSTSetup.NEXT=0;
-                         SEZGSTPer := FORMAT(GSTSetup."GST Component %")+'%' ;
-                         //SEZGSTAmnt +=(SalesInvLine3."Line Amount")*(SEZGSTAmnt/100);
-                          SEZGSTAmnt +=(Linetotal1)*(SEZGSTAmnt/100);
-                        END;
-                     END;
-                   //UNTIL SalesInvLine3.NEXT=0;
-                   END;*/
-
-
-
                 CLEAR(AdvPaymentDetails);
                 CustLedgerEntry.RESET;
                 CustLedgerEntry.SETRANGE(CustLedgerEntry."Document No.", "Sales Invoice Header"."No.");
@@ -1184,14 +838,6 @@ report 50122 "Sample Invoice"
 
             trigger OnPostDataItem();
             begin
-                //  ERROR('%1 - %2 - %3',SerTaxBaseAmt,Linetotal1,SBCessPer);//
-                /*
-                        IF SBCessPer <> 0 THEN
-                        SBCessTotal += ROUND((SerTaxBaseAmt*(SBCessPer/100)),1);
-                        IF SBCessTotal <>0 THEN
-                        ServiceTaxTotal -= SBCessTotal;
-                 */
-                // ERROR('%1 - %2 - %3',SBCessTotal,ServiceTaxTotal);//
 
             end;
 
@@ -1199,7 +845,6 @@ report 50122 "Sample Invoice"
             begin
                 CompInfo.GET;
                 CompInfo.CALCFIELDS(CompInfo.Picture);
-                // CompInfo.CALCFIELDS(CompInfo."Authorised Signature");
 
                 CLEAR(LineTotal);
                 CLEAR(ServiceTaxTotal);
@@ -1258,79 +903,8 @@ report 50122 "Sample Invoice"
 
     trigger OnPostReport();
     begin
-        //ERROR('1- %1 - %2 - %3',ServiceTaxTotal,SBCessTotal,SBCessPer,ServTaxSetup.Code);
+
     end;
-
-    /*procedure GetGSTRoundingPrecision(ComponentName: Code[30]): Decimal
-    var
-        TaxComponent: Record "Tax Component";
-        GSTSetup: Record "GST Setup";
-        GSTRoundingPrecision: Decimal;
-    begin
-        if not GSTSetup.Get() then
-            exit;
-        GSTSetup.TestField("GST Tax Type");
-
-        TaxComponent.SetRange("Tax Type", GSTSetup."GST Tax Type");
-        TaxComponent.SetRange(Name, ComponentName);
-        TaxComponent.FindFirst();
-        if TaxComponent."Rounding Precision" <> 0 then
-            GSTRoundingPrecision := TaxComponent."Rounding Precision"
-        else
-            GSTRoundingPrecision := 1;
-        exit(GSTRoundingPrecision);
-    end;*/
-
-    /*local procedure GetGSTAmount(SalesIvHeader: Record "Sales Invoice Header";
-    SalesInvLine: Record "Sales Invoice Line")
-    var
-        DetailedGSTLedgerEntry: Record "Detailed GST Ledger Entry";
-    begin
-        Clear(IGSSTAmt);
-        Clear(IGSTPer);
-        Clear(SGSTPer);
-        Clear(CGSTPer);
-        Clear(CGSTAmt);
-        Clear(SGSTAmt);
-        Clear(CessAmt);
-        DetailedGSTLedgerEntry.Reset();
-        DetailedGSTLedgerEntry.SetRange("Document No.", SalesInvLine."Document No.");
-        DetailedGSTLedgerEntry.SetRange("Entry Type", DetailedGSTLedgerEntry."Entry Type"::"Initial Entry");
-        if DetailedGSTLedgerEntry.FindSet() then
-            repeat
-                if (DetailedGSTLedgerEntry."GST Component Code" = CGSTLbl) And (SalesIvHeader."Currency Code" <> '') then begin
-                    CGSTAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
-                    CGSTPer := DetailedGSTLedgerEntry."GST %";
-                end else
-                    if (DetailedGSTLedgerEntry."GST Component Code" = CGSTLbl) then begin
-                        CGSTAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
-                        CGSTPer := DetailedGSTLedgerEntry."GST %";
-                    end;
-                if (DetailedGSTLedgerEntry."GST Component Code" = SGSTLbl) And (SalesIvHeader."Currency Code" <> '') then begin
-                    SGSTAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
-                    SGSTPer := DetailedGSTLedgerEntry."GST %";
-                end else
-                    if (DetailedGSTLedgerEntry."GST Component Code" = SGSTLbl) then begin
-                        SGSTAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
-                        SGSTPer := DetailedGSTLedgerEntry."GST %";
-                    end;
-                if (DetailedGSTLedgerEntry."GST Component Code" = IGSTLbl) And (SalesIvHeader."Currency Code" <> '') then begin
-                    IGSSTAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
-                    IGSTPer := DetailedGSTLedgerEntry."GST %";
-                end else
-                    if (DetailedGSTLedgerEntry."GST Component Code" = IGSTLbl) then begin
-                        IGSSTAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
-                        IGSTPer := DetailedGSTLedgerEntry."GST %";
-                        // message('%1', IGSTPer);
-                    end;
-                if (DetailedGSTLedgerEntry."GST Component Code" = CessLbl) And (SalesIvHeader."Currency Code" <> '') then
-                    CessAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"))
-                else
-                    if (DetailedGSTLedgerEntry."GST Component Code" = CessLbl) then
-                        CessAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
-            until DetailedGSTLedgerEntry.Next() = 0;
-
-    end;*/
 
     local procedure GetTDSAmt(SalesInvHeader: Record "Sales Invoice Header";
         SalesInvLine: Record "Sales Invoice Line")
@@ -1593,5 +1167,8 @@ report 50122 "Sample Invoice"
         IGSTPer: decimal;
         SGSTPer: decimal;
         ItemLinesExist: Boolean;
+        QtyPerUnit: Decimal;
+        TotalQtyPerUnit: Decimal;
+        SalesInvoiceLineGRec: Record "Sales Invoice Line";
 }
 

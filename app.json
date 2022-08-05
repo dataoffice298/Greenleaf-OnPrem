@@ -21,6 +21,18 @@
       "publisher": "Microsoft",
       "name": "India GST",
       "version": "20.2.41144.41423"
+    },
+    {
+      "id": "c1eafb3f-e397-468e-bdb4-ecc5c317ca00",
+      "publisher": "Microsoft",
+      "name": "Tax Engine",
+      "version": "20.2.41144.41423"
+    },
+    {
+      "id": "d3c551dd-5903-4194-b153-04ced9d29a2c",
+      "publisher": "Microsoft",
+      "name": "India Tax Base",
+      "version": "20.2.41144.41423"
     }
   ],
   "screenshots": [],

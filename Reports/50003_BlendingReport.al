@@ -115,12 +115,9 @@ report 50003 "Blending Report"
             {
 
             }
-            //dataitem("Item Journal Line"; "Item Journal Line")
             dataitem("Item Ledger Entry"; "Item Ledger Entry")
             {
                 DataItemLinkReference = "Prod. Order Line";
-
-                //DataItemLink = "Order No." = FIELD("Prod. Order No."), "Order Line No." = FIELD("Line No.");
                 DataItemLink = "Document No." = FIELD("Prod. Order No.");
                 column(Lot_No_; "Lot No.")
                 {
@@ -167,15 +164,10 @@ report 50003 "Blending Report"
                             IF (ILE."Entry Type" = ILE."Entry Type"::Consumption) then begin
                                 TotalQuantityConsumption := TotalQuantityConsumption + ILE.Quantity;
                                 Percentage1 := (ILE.Quantity / TotalQuantityConsumption) * 100
+                            end;
 
-                            end
-
-
-                            else
-                                if (ILE."Entry Type" = ILE."Entry Type"::Output) then
-                                    TotalQuantityOutput := TotalQuantityOutput + ILE.Quantity;
-
-
+                            if (ILE."Entry Type" = ILE."Entry Type"::Output) then
+                                TotalQuantityOutput := TotalQuantityOutput + ILE.Quantity;
                         until ILE.Next() = 0;
                 end;
 
