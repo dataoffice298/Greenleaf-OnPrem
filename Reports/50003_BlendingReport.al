@@ -16,10 +16,15 @@ report 50003 "Blending Report"
             {
 
             }
+            column(Comments; producationCom.Comment)
+            { }
             column(BlendingCap; BlendingCap)
             {
 
             }
+
+
+
             column(ProductionCap; ProductionCap)
             { }
             column(DateIssCap; DateIssCap)
@@ -115,6 +120,7 @@ report 50003 "Blending Report"
             {
 
             }
+
             dataitem("Item Ledger Entry"; "Item Ledger Entry")
             {
                 DataItemLinkReference = "Prod. Order Line";
@@ -154,6 +160,8 @@ report 50003 "Blending Report"
                 { }
                 trigger OnAfterGetRecord()
                 begin
+                    if Item.Get("Item No.") then;
+
                     clear(TotalQuantityConsumption);
                     clear(TotalQuantityOutput);
                     ILE.Reset();
@@ -179,25 +187,22 @@ report 50003 "Blending Report"
             }
             trigger OnAfterGetRecord()
             begin
-                if Item.Get("Item No.") then;
+                if producationCom.get("Prod. Order No.") then;
+
 
             end;
+
+
 
         }
     }
 
     requestpage
     {
-        layout
-        {
-            area(Content)
-            {
-                group(GroupName)
-                {
 
-                }
-            }
-        }
+
+
+
 
         actions
         {
@@ -248,6 +253,7 @@ report 50003 "Blending Report"
         TotalQuantityConsumption: Decimal;
         TotalQuantityOutput: Decimal;
         Percentage1: Decimal;
+        producationCom: Record "Production Order";
 
 
 

@@ -504,6 +504,14 @@ report 50122 "Sample Invoice"
                         { }
                         column(Line_Amount; "Line Amount")
                         { }
+                        column(CGSTLbl; CGSTLbl)
+                        { }
+                        column(SGSTLbl; SGSTLbl)
+                        { }
+                        column(IGSTLbl; IGSTLbl)
+                        { }
+                        column(Total; Total)
+                        { }
 
                         trigger OnAfterGetRecord();
                         var
@@ -557,8 +565,8 @@ report 50122 "Sample Invoice"
                             END ELSE BEGIN
                                 CurrReport.SKIP;
                             END;
-                            GetGSTbaseAmount("Sales Invoice Header", "Sales Invoice Line");//BUGFIX
-
+                            //GetGSTbaseAmount("Sales Invoice Header", "Sales Invoice Line");//BUGFIX
+                            GetSalesGSTAmount("Sales Invoice Header", "Sales Invoice Line");
                             GetTDSAmt("Sales Invoice Header", "Sales Invoice Line");
 
                             CGSTRate := CGSTAmt; //BUGFIX
@@ -573,17 +581,14 @@ report 50122 "Sample Invoice"
                             TotalGstGVar := CGSTRate + SGSTRate + IGSTRate;
                             //B2BUPG1.0<<
                             LineTotal += "Line Amount";
-                            GrandTotal := Round(LineTotal + CGSTRate + SGSTRate + IGSTRate, 1);
+                            Total += "Line Amount" + LineTotal + CGSTAmt + SGSTAmt + IGSSTAmt;
+
+                            GrandTotal := Round(Total + CGSTRate + SGSTRate + IGSTRate, 1);
                             Chck.InitTextVariable();
-                            Chck.FormatNoText(NumToText, LineTotal, "Sales Invoice Header"."Currency Code");
+                            Chck.FormatNoText(NumToText, Total, "Sales Invoice Header"."Currency Code");
                             //10DEC 2019 <<
 
-                            /* IF "Sales Invoice Header"."Currency Code" <> '' THEN BEGIN
-                                 GrandTotal := UOMUSDAmtTot + ROUND((ServiceTaxTotal + EshesTotal + SheshesTotal), 1) + TaxTotal + SBCessTotal + ABS(GSTCompAmount[1]) + ABS(GSTCompAmount[2]) + ABS(GSTCompAmount[3]) + ABS(GSTCompAmount[4]); //B2BGST1.0
-                                 GrandTotalUSD := ROUND(GrandTotal, 1);
-                                 Chck.InitTextVariable;
-                                 Chck.FormatNoText(NumToText, ROUND(GrandTotal, 1), "Sales Invoice Header"."Currency Code");
-                             END;*/
+
 
 
                             IF "Sales Invoice Line"."No." = 'USD CLAUSE' THEN
@@ -629,6 +634,7 @@ report 50122 "Sample Invoice"
                         end;
                     }
                 }
+
 
                 trigger OnAfterGetRecord();
                 begin
@@ -754,43 +760,7 @@ report 50122 "Sample Invoice"
                     SendAddress6 := CustRec."Phone No."
                 END;
 
-                //B2BGST1.0 Start >>
-                SalesInvLineGRec.RESET;
-                SalesInvLineGRec.SETRANGE("Document No.", "No.");
-                //SalesInvLineGRec.SETRANGE(Type,SalesInvLineGRec.Type::Item);
-                IF SalesInvLineGRec.FINDFIRST THEN;
-                IF IsGSTApplicable AND (SalesInvLineGRec.Type <> SalesInvLineGRec.Type::" ") THEN BEGIN
-                    j := 1;
-                    /* GSTComponent.RESET;
-                     GSTComponent.SETRANGE("GST Jurisdiction Type",SalesInvLineGRec."GST Jurisdiction Type");
-                     IF GSTComponent.FINDSET THEN
-                       REPEAT
-                         GSTComponentCode[j] := GSTComponent.Code;
-                         DetailedGSTEntryBuffer.RESET;
-                         DetailedGSTEntryBuffer.SETCURRENTKEY(DetailedGSTEntryBuffer."Entry No.");
-                         DetailedGSTEntryBuffer.SETRANGE("Transaction Type",DetailedGSTEntryBuffer."Transaction Type"::Sales);
-                         DetailedGSTEntryBuffer.SETRANGE("Document No.","No.");
-                         DetailedGSTEntryBuffer.SETRANGE("GST Component Code",GSTComponentCode[j]);
-                         IF DetailedGSTEntryBuffer.FINDSET THEN BEGIN
-                           REPEAT
-                             IF "Sales Invoice Header"."Currency Code" = '' THEN
-                               GSTCompAmount[j] +=  (DetailedGSTEntryBuffer."GST Amount")
-                             ELSE BEGIN
-                                CLEAR(ExchRate);
-                                ExchRate :=(1/"Sales Invoice Header"."Currency Factor");
-                               GSTCompAmount[j] +=  (DetailedGSTEntryBuffer."GST Amount")/ExchRate;
-                             END;
 
-                             GstPerGVar := DetailedGSTEntryBuffer."GST %";
-                           UNTIL DetailedGSTEntryBuffer.NEXT = 0;
-                           j += 1;
-                         END;
-                       UNTIL GSTComponent.NEXT = 0;*/
-                END;
-
-                CLEAR(TotalGstGVar);
-                TotalGstGVar := ABS(GSTCompAmount[1]) + ABS(GSTCompAmount[2]) + ABS(GSTCompAmount[3]) + ABS(GSTCompAmount[4]);
-                //B2BGST1.0 End <<
 
 
 
@@ -926,46 +896,109 @@ report 50122 "Sample Invoice"
     local procedure GetGSTBaseAmount(SalesIvHeader: Record "Sales Invoice Header";
     SalesInvLine: Record "Sales Invoice Line")
     var
-        //     TaxTransactionValue: Record "Tax Transaction Value";
+        TaxTransactionValue: Record "Tax Transaction Value";
         GstRateVar: decimal;
+        DetailedGSTLedgerEntry: Record "Detailed GST Ledger Entry";
     begin
 
         CLEAR(SEZGSTPer);
         CLEAR(SEZGSTAmnt);
 
-        // TaxTransactionValue.Reset;
-        // TaxTransactionValue.Setrange("Tax Record ID", SalesInvLine.RecordId);
-        // TaxTransactionValue.Setrange("Value Type", TaxTransactionValue."Value Type"::COMPONENT);
-        // TaxTransactionValue.Setfilter("Value ID", '%1|%2|%3', 2, 3, 6);
-        // TaxTransactionValue.setrange("Tax Type", 'GST');
-        //if TaxTransactionValue.FindFirst() then
-        //GstRateVar := TaxTransactionValue.Percent
-        //else
-        GstRateVar := 0;
-        //DetailedGSTLedgerEntry.Reset();
-        // DetailedGSTLedgerEntry.SetRange("Document No.", SalesInvLine."Document No.");
-        // DetailedGSTLedgerEntry.SetRange("Entry Type", DetailedGSTLedgerEntry."Entry Type"::"Initial Entry");
+        TaxTransactionValue.Reset;
+        TaxTransactionValue.Setrange("Tax Record ID", SalesInvLine.RecordId);
+        TaxTransactionValue.Setrange("Value Type", TaxTransactionValue."Value Type"::COMPONENT);
+        TaxTransactionValue.Setfilter("Value ID", '%1|%2|%3', 2, 3, 6);
+        TaxTransactionValue.setrange("Tax Type", 'GST');
+        if TaxTransactionValue.FindFirst() then
+            GstRateVar := TaxTransactionValue.Percent
+        else
+            GstRateVar := 0;
+        DetailedGSTLedgerEntry.Reset();
+        DetailedGSTLedgerEntry.SetRange("Document No.", SalesInvLine."Document No.");
+        DetailedGSTLedgerEntry.SetRange("Entry Type", DetailedGSTLedgerEntry."Entry Type"::"Initial Entry");
 
-        /* if DetailedGSTLedgerEntry.FindSet() then
-             repeat
-                 if (SalesIvHeader."Currency Code" <> '') then begin
-                     if GstRateVar <> 0 then
-                       //  SEZGSTAmnt += Round((Abs((DetailedGSTLedgerEntry."GST base Amount" * GstRateVar) / 100) * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
-                     SEZGSTPer := Format(GstRateVar);
-                 end else begin
-
-
-                     if GstRateVar <> 0 then
-                     //    SEZGSTAmnt += Round(Abs(DetailedGSTLedgerEntry."GST base Amount" * GstRateVar) / 100, GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
-                     SEZGSTPer := Format(GstRateVar);
-                 end;
+        if DetailedGSTLedgerEntry.FindSet() then
+            repeat
+                if (SalesIvHeader."Currency Code" <> '') then begin
+                    if GstRateVar <> 0 then
+                        //  SEZGSTAmnt += Round((Abs((DetailedGSTLedgerEntry."GST base Amount" * GstRateVar) / 100) * SalesIvHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
+                        SEZGSTPer := Format(GstRateVar);
+                end else begin
 
 
+                    if GstRateVar <> 0 then
+                        //    SEZGSTAmnt += Round(Abs(DetailedGSTLedgerEntry."GST base Amount" * GstRateVar) / 100, GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"));
+                        SEZGSTPer := Format(GstRateVar);
+                end;
 
-             until DetailedGSTLedgerEntry.Next() = 0;*/
 
+
+            until DetailedGSTLedgerEntry.Next() = 0;
+    end;
+    //mm            
+    procedure GetGSTRoundingPrecision(ComponentName: Code[30]): Decimal
+    var
+        TaxComponent: Record "Tax Component";
+        GSTSetup: Record "GST Setup";
+        GSTRoundingPrecision: Decimal;
+    begin
+        if not GSTSetup.Get() then
+            exit;
+        GSTSetup.TestField("GST Tax Type");
+
+        TaxComponent.SetRange("Tax Type", GSTSetup."GST Tax Type");
+        TaxComponent.SetRange(Name, ComponentName);
+        TaxComponent.FindFirst();
+        if TaxComponent."Rounding Precision" <> 0 then
+            GSTRoundingPrecision := TaxComponent."Rounding Precision"
+        else
+            GSTRoundingPrecision := 1;
+        exit(GSTRoundingPrecision);
     end;
 
+
+    local procedure GetSalesGSTAmount(SalesInvoiceHeader: Record "Sales Invoice Header";
+            SalesInvoiceLine: Record "Sales Invoice Line")
+    var
+        DetailedGSTLedgerEntry: Record "Detailed GST Ledger Entry";
+    begin
+        Clear(IGSSTAmt);
+        Clear(CGSTAmt);
+        Clear(SGSTAmt);
+        Clear(CessAmt);
+        DetailedGSTLedgerEntry.Reset();
+        DetailedGSTLedgerEntry.SetRange("Document No.", SalesInvoiceLine."Document No.");
+        DetailedGSTLedgerEntry.SetRange("Entry Type", DetailedGSTLedgerEntry."Entry Type"::"Initial Entry");
+        DetailedGSTLedgerEntry.SetRange("Document Line No.", SalesInvoiceLine."Line No.");
+        if DetailedGSTLedgerEntry.FindSet() then begin
+            repeat
+                if (DetailedGSTLedgerEntry."GST Component Code" = CGSTLbl) And (SalesInvoiceHeader."Currency Code" <> '') then
+                    CGSTAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesInvoiceHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"))
+                else
+                    if (DetailedGSTLedgerEntry."GST Component Code" = CGSTLbl) then
+                        CGSTAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
+
+                if (DetailedGSTLedgerEntry."GST Component Code" = SGSTLbl) And (SalesInvoiceHeader."Currency Code" <> '') then
+                    SGSTAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesInvoiceHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"))
+                else
+                    if (DetailedGSTLedgerEntry."GST Component Code" = SGSTLbl) then
+                        SGSTAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
+
+                if (DetailedGSTLedgerEntry."GST Component Code" = IGSTLbl) And (SalesInvoiceHeader."Currency Code" <> '') then
+                    IGSSTAmt := Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesInvoiceHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"))
+                else
+                    if (DetailedGSTLedgerEntry."GST Component Code" = IGSTLbl) then
+                        IGSSTAmt := Abs(DetailedGSTLedgerEntry."GST Amount");
+                if (DetailedGSTLedgerEntry."GST Component Code" = CessLbl) And (SalesInvoiceHeader."Currency Code" <> '') then
+                    CessAmt += Round((Abs(DetailedGSTLedgerEntry."GST Amount") * SalesInvoiceHeader."Currency Factor"), GetGSTRoundingPrecision(DetailedGSTLedgerEntry."GST Component Code"))
+                else
+                    if (DetailedGSTLedgerEntry."GST Component Code" = CessLbl) then
+                        CessAmt += Abs(DetailedGSTLedgerEntry."GST Amount");
+            until DetailedGSTLedgerEntry.Next() = 0;
+
+        end;
+    end;
+    //mm
 
 
     var
@@ -1079,8 +1112,8 @@ report 50122 "Sample Invoice"
         Lable4_Cap04: label 'NOT FOR RE-SALE , ONLY FOR TESTING PURPOSE';
 
         "-B2BGST1.0-": Integer;
-        // GSTComponent : Record "16405";
-        //  DetailedGSTEntryBuffer: Record "Detailed GST Entry Buffer";
+        //GSTComponent: Record "16405";
+        DetailedGSTEntryBuffer: Record "Detailed GST Entry Buffer";
         IsGSTApplicable: Boolean;
         j: Integer;
         GSTCompAmount: array[20] of Decimal;
@@ -1119,7 +1152,7 @@ report 50122 "Sample Invoice"
         SEZGSTPer: Text[250];
         SEZGSTAmnt: Decimal;
         SalesInvLine3: Record 113;
-        //    GSTSetup: Record "GST Setup";
+        GSTSetup: Record "GST Setup";
         Footer1_1_CaptionLbl: Label '1. Invoice is subjected to repective HCCI standard terms and conditions';
         Footer2_1_CaptionLbl: Label '2. Any dispute shall be resolved subject to Hyderabad Jurisdiction';
         Footer3_1_CaptionLbl: Label '3. Unless otherwise stated tax on this invoice is not payable under reverse charge';
@@ -1170,5 +1203,9 @@ report 50122 "Sample Invoice"
         QtyPerUnit: Decimal;
         TotalQtyPerUnit: Decimal;
         SalesInvoiceLineGRec: Record "Sales Invoice Line";
+        ReportCheck: Codeunit CheckNew;
+        
+
+        Total: Decimal;
 }
 
