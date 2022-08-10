@@ -5092,7 +5092,7 @@
                                                     <Value>=Fields!Line_Amount.Value</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
-                                                      <Format>'$'0.00;('$'0.00)</Format>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5106,16 +5106,11 @@
                                               <Border>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <RightBorder>
-                                                <Color>Black</Color>
-                                                <Width>1pt</Width>
-                                              </RightBorder>
                                               <VerticalAlign>Middle</VerticalAlign>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
                                               <PaddingTop>2pt</PaddingTop>
                                               <PaddingBottom>2pt</PaddingBottom>
-                                              <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                                             </Style>
                                           </Textbox>
                                         </CellContents>
@@ -5235,6 +5230,7 @@
                                                     <Value>=Sum(Fields!Line_Amount.Value)</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5384,6 +5380,7 @@
                                                     <Value>=Fields!CGSTAmt.Value</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5395,26 +5392,6 @@
                                               <Border>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <TopBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </TopBorder>
-                                              <BottomBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </BottomBorder>
-                                              <LeftBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </LeftBorder>
-                                              <RightBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </RightBorder>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
                                               <PaddingTop>2pt</PaddingTop>
@@ -5541,6 +5518,7 @@
                                                     <Value>=Fields!SGSTAmt.Value</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5552,26 +5530,6 @@
                                               <Border>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <TopBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </TopBorder>
-                                              <BottomBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </BottomBorder>
-                                              <LeftBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </LeftBorder>
-                                              <RightBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </RightBorder>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
                                               <PaddingTop>2pt</PaddingTop>
@@ -5698,6 +5656,7 @@
                                                     <Value>=Fields!IGSSTAmt.Value</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5709,26 +5668,6 @@
                                               <Border>
                                                 <Style>Solid</Style>
                                               </Border>
-                                              <TopBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </TopBorder>
-                                              <BottomBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </BottomBorder>
-                                              <LeftBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </LeftBorder>
-                                              <RightBorder>
-                                                <Color>Black</Color>
-                                                <Style>Solid</Style>
-                                                <Width>1pt</Width>
-                                              </RightBorder>
                                               <PaddingLeft>2pt</PaddingLeft>
                                               <PaddingRight>2pt</PaddingRight>
                                               <PaddingTop>2pt</PaddingTop>
@@ -5831,6 +5770,7 @@
                                                     <Value>=Fields!Total.Value</Value>
                                                     <Style>
                                                       <FontSize>8pt</FontSize>
+                                                      <Format>0.00;(0.00)</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -5858,6 +5798,7 @@
                                               <PaddingBottom>2pt</PaddingBottom>
                                             </Style>
                                           </Textbox>
+                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                     </TablixCells>

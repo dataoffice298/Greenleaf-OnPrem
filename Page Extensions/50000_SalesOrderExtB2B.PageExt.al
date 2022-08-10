@@ -17,6 +17,21 @@ pageextension 50000 SalesOrderPageExtB2B extends "Sales Order"
 
     actions
     {
+        modify(Post)
+        {
+            trigger OnBeforeAction()
+            var
+                SaleLine: Record "Sales Line";
+                ErrSelect: Label 'No line selected to generate the report after posted. Please select atleast one line to continue.';
+            begin
+                SaleLine.Reset();
+                SaleLine.SetRange("Document No.", Rec."No.");
+                SaleLine.SetFilter("No.", '<>%1', '');
+                SaleLine.SetRange(Select, true);
+                if not SaleLine.FindFirst() then
+                    Error(ErrSelect);
+            end;
+        }
         addlast(Warehouse)
         {
             group("Quality B2B")

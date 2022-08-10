@@ -49,35 +49,33 @@ report 50008 QAR
             {
 
             }
-            column(PostedDataSheetHdr; PostedDataSheetHdr."No.")
+            column(PostedDataSheetHdrNo1; PostedDataSheetHdrNo1)
             {
 
             }
-            column(PostedDataSheetHdr2; PostedDataSheetHdr2."No.")
+            column(PostedDataSheetHdrNo2; PostedDataSheetHdrNo2)
             {
 
             }
-            column(PostedDataSheetHdr3; PostedDataSheetHdr3."No.")
+            column(PostedDataSheetHdrNo3; PostedDataSheetHdrNo3)
             {
 
             }
-            column(PostedDataSheetHdr4; PostedDataSheetHdr4."No.")
+            column(PostedDataSheetHdrNo4; PostedDataSheetHdrNo4)
             {
 
             }
-            column(PostedDataSheetHdr5; PostedDataSheetHdr5."No.")
+            column(PostedDataSheetHdrNo5; PostedDataSheetHdrNo5)
+            { }
+            column(VendorNo; VendorNo)
             {
 
             }
-            column(PostedDataSheetHdr6; PostedDataSheetHdr."Vendor No.")
+            column(OrderNo; OrderNo)
             {
 
             }
-            column(PostedDataSheetHdr7; PostedDataSheetHdr."Order No.")
-            {
-
-            }
-            column(PostedDataSheetHdr8; PostedDataSheetHdr8."Receipt No.")
+            column(ReceiptNo; ReceiptNo)
             {
 
             }
@@ -143,67 +141,69 @@ report 50008 QAR
             }
 
             trigger OnAfterGetRecord()
-            var
-                myInt: Integer;
-
-                spec: Record "Specification Line B2B";
-
-
             begin
                 Clear(PostedDataSheet);
                 Clear("ActualValue(Text)");
                 Clear(Lotno1);
                 PostedDataSheet.Reset();
-                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr."No.");
+                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdrNo1);
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
                 if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
-                    Lotno1 := PostedDataSheetHdr."Lot No.";
-                    PostedDataSheetHdr.Get(Vendor);
+                    if PostedDataSheetHdr.Get(PostedDataSheetHdrNo1) then begin
+                        Lotno1 := PostedDataSheetHdr."Lot No.";
+                        VendorNo := PostedDataSheetHdr."Vendor No.";
+                        OrderNo := PostedDataSheetHdr."Order No.";
+                        ReceiptNo := PostedDataSheetHdr."Receipt No.";
+                    end;
                 end;
 
                 Clear("ActualValue(Text)2");
                 Clear(Lotno2);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
-                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr2."No.");
+                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdrNo2);
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
                 if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)2" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
-                    Lotno2 := PostedDataSheetHdr."Lot No.";
+                    if PostedDataSheetHdr.Get(PostedDataSheetHdrNo2) then
+                        Lotno2 := PostedDataSheetHdr."Lot No.";
                 end;
 
                 Clear("ActualValue(Text)3");
                 Clear(Lotno3);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
-                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr3."No.");
+                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdrNo3);
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
                 if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)3" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
-                    Lotno3 := PostedDataSheetHdr."Lot No.";
+                    if PostedDataSheetHdr.Get(PostedDataSheetHdrNo3) then
+                        Lotno3 := PostedDataSheetHdr."Lot No.";
                 end;
 
                 Clear("ActualValue(Text)4");
                 Clear(Lotno4);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
-                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr4."No.");
+                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdrNo4);
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
                 if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)4" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
-                    Lotno4 := PostedDataSheetHdr."Lot No.";
+                    if PostedDataSheetHdr.Get(PostedDataSheetHdrNo4) then
+                        Lotno4 := PostedDataSheetHdr."Lot No.";
                 end;
 
                 Clear("ActualValue(Text)5");
                 Clear(PostedDataSheet);
                 Clear(Lotno5);
                 PostedDataSheet.Reset();
-                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr5."No.");
+                PostedDataSheet.SetRange("Document No.", PostedDataSheetHdrNo5);
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
                 if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)5" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
-                    Lotno3 := PostedDataSheetHdr."Lot No.";
+                    if PostedDataSheetHdr.Get(PostedDataSheetHdrNo5) then
+                        Lotno5 := PostedDataSheetHdr."Lot No.";
                 end;
 
             end;
@@ -223,32 +223,32 @@ report 50008 QAR
             {
                 group(Details)
                 {
-                    field(PostedDataSheetHdr; PostedDataSheetHdr."No.")
+                    field(PostedDataSheetHdrNo1; PostedDataSheetHdrNo1)
                     {
                         ApplicationArea = All;
                         TableRelation = "Posted Ins DatasheetHeader B2B";
 
                     }
-                    field(PostedDataSheetHdr2; PostedDataSheetHdr2."No.")
+                    field(PostedDataSheetHdrNo2; PostedDataSheetHdrNo2)
                     {
                         ApplicationArea = all;
                         TableRelation = "Posted Ins DatasheetHeader B2B";
 
                     }
-                    field(PostedDataSheetHdr3; PostedDataSheetHdr3."No.")
+                    field(PostedDataSheetHdrNo3; PostedDataSheetHdrNo3)
                     {
                         ApplicationArea = all;
                         TableRelation = "Posted Ins DatasheetHeader B2B";
 
                     }
-                    field(PostedDataSheetHdr4; PostedDataSheetHdr4."No.")
+                    field(PostedDataSheetHdrNo4; PostedDataSheetHdrNo4)
                     {
                         ApplicationArea = all;
                         TableRelation = "Posted Ins DatasheetHeader B2B";
 
 
                     }
-                    field(PostedDataSheetHdr5; PostedDataSheetHdr5."No.")
+                    field(PostedDataSheetHdrNo5; PostedDataSheetHdrNo5)
                     {
                         ApplicationArea = all;
                         TableRelation = "Posted Ins DatasheetHeader B2B";
@@ -277,14 +277,11 @@ report 50008 QAR
         PostedDataSheet: Record "Posted Ins Datasheet Line B2B";
 
         "ActualValue(Text)": Code[20];
-        PostedDataSheetHdr2: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr3: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr4: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr5: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr6: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr7: Record "Posted Ins DatasheetHeader B2B";
-        PostedDataSheetHdr8: Record "Posted Ins DatasheetHeader B2B";
-
+        PostedDataSheetHdrNo1: Code[20];
+        PostedDataSheetHdrNo2: Code[20];
+        PostedDataSheetHdrNo3: Code[20];
+        PostedDataSheetHdrNo4: Code[20];
+        PostedDataSheetHdrNo5: Code[20];
 
         "ActualValue(Text)2": Code[20];
         "ActualValue(Text)3": Code[20];
@@ -305,8 +302,9 @@ report 50008 QAR
         Lotno3: Code[20];
         Lotno4: Code[20];
         Lotno5: Code[20];
-        Vendor: Code[20];
-
+        VendorNo: Code[20];
+        OrderNo: Code[20];
+        ReceiptNo: Code[20];
 
 
 

@@ -1,4 +1,4 @@
-pageextension 50008 ReleasedProductionOrderExtB2B extends "Released Production Order"
+pageextension 50010 FinishedproductionOrder extends "Finished Production Order"
 {
     layout
     {
@@ -8,7 +8,7 @@ pageextension 50008 ReleasedProductionOrderExtB2B extends "Released Production O
     actions
     {
         // Add changes to page actions here
-        addafter("Subcontractor - Dispatch List")
+        addafter("O&rder")
         {
             action(BlendingReport)
             {
@@ -32,6 +32,8 @@ pageextension 50008 ReleasedProductionOrderExtB2B extends "Released Production O
             }
 
         }
+
+
     }
 
     var
