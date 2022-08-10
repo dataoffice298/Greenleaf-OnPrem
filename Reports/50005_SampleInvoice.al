@@ -581,11 +581,11 @@ report 50122 "Sample Invoice"
                             TotalGstGVar := CGSTRate + SGSTRate + IGSTRate;
                             //B2BUPG1.0<<
                             LineTotal += "Line Amount";
-                            Total += "Line Amount" + LineTotal + CGSTAmt + SGSTAmt + IGSSTAmt;
+                            Total := Round(LineTotal + "Line Amount" + CGSTAmt + SGSTAmt + IGSSTAmt, 1);
 
                             GrandTotal := Round(Total + CGSTRate + SGSTRate + IGSTRate, 1);
-                            Chck.InitTextVariable();
-                            Chck.FormatNoText(NumToText, Total, "Sales Invoice Header"."Currency Code");
+                            ReportCheck.InitTextVariable();
+                            ReportCheck.FormatNoText(NumToText, Total, "Sales Invoice Header"."Currency Code");
                             //10DEC 2019 <<
 
 
@@ -1026,7 +1026,7 @@ report 50122 "Sample Invoice"
         Rate_Cap: Label 'Rate';
         Amount_Cap: Label 'Amount';
         Amount_in_words_Cap: Label 'Amount (in words)';
-        Total_Amt_Cap: Label 'Total Amt';
+        Total_Amt_Cap: Label 'Total Amount';
         ProvisionalIDNo_Cap: Label 'Provisional ID No:';
         CompInfo: Record 79;
         sno: Integer;
@@ -1204,7 +1204,7 @@ report 50122 "Sample Invoice"
         TotalQtyPerUnit: Decimal;
         SalesInvoiceLineGRec: Record "Sales Invoice Line";
         ReportCheck: Codeunit CheckNew;
-        
+
 
         Total: Decimal;
 }

@@ -69,6 +69,18 @@ report 50008 QAR
             {
 
             }
+            column(PostedDataSheetHdr6; PostedDataSheetHdr."Vendor No.")
+            {
+
+            }
+            column(PostedDataSheetHdr7; PostedDataSheetHdr."Order No.")
+            {
+
+            }
+            column(PostedDataSheetHdr8; PostedDataSheetHdr8."Receipt No.")
+            {
+
+            }
             column(Property_Name; "Property Name")
             {
 
@@ -77,7 +89,58 @@ report 50008 QAR
             {
 
             }
+            column(QARCAP; QARCAP)
+            {
 
+            }
+            column(QARDATECAP; QARDATECAP)
+            {
+
+            }
+            column(DATEOFRECPT; DATEOFRECPT)
+            {
+
+            }
+            column(LOTNOCAP; LOTNOCAP)
+            {
+
+            }
+            column(PRODUCTCAP; PRODUCTCAP)
+            {
+
+            }
+            column(SUPPLIERCAP; SUPPLIERCAP)
+            {
+
+            }
+            column(SUPPLIEREFCAP; SUPPLIEREFCAP)
+            {
+
+            }
+            column(RECIEVEDCAP; RECIEVEDCAP)
+            {
+
+            }
+            column(Lotno1; Lotno1)
+            {
+
+            }
+            column(Lotno2; Lotno2)
+            {
+
+            }
+            column(Lotno3; Lotno3)
+            {
+
+            }
+            column(Lotno4; Lotno4)
+            {
+
+            }
+            column(Lotno5; Lotno5)
+            {
+
+            }
 
             trigger OnAfterGetRecord()
             var
@@ -89,42 +152,59 @@ report 50008 QAR
             begin
                 Clear(PostedDataSheet);
                 Clear("ActualValue(Text)");
+                Clear(Lotno1);
                 PostedDataSheet.Reset();
                 PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr."No.");
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
-                if PostedDataSheet.FindFirst() then
+                if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
+                    Lotno1 := PostedDataSheetHdr."Lot No.";
+                    PostedDataSheetHdr.Get(Vendor);
+                end;
+
                 Clear("ActualValue(Text)2");
+                Clear(Lotno2);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
                 PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr2."No.");
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
-                if PostedDataSheet.FindFirst() then
+                if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)2" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
+                    Lotno2 := PostedDataSheetHdr."Lot No.";
+                end;
 
                 Clear("ActualValue(Text)3");
+                Clear(Lotno3);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
                 PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr3."No.");
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
-                if PostedDataSheet.FindFirst() then
+                if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)3" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
+                    Lotno3 := PostedDataSheetHdr."Lot No.";
+                end;
 
                 Clear("ActualValue(Text)4");
+                Clear(Lotno4);
                 Clear(PostedDataSheet);
                 PostedDataSheet.Reset();
                 PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr4."No.");
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
-                if PostedDataSheet.FindFirst() then
+                if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)4" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
+                    Lotno4 := PostedDataSheetHdr."Lot No.";
+                end;
 
                 Clear("ActualValue(Text)5");
                 Clear(PostedDataSheet);
+                Clear(Lotno5);
                 PostedDataSheet.Reset();
                 PostedDataSheet.SetRange("Document No.", PostedDataSheetHdr5."No.");
                 PostedDataSheet.SetRange("Character Code", "Specification Line B2B"."Character Code");
-                if PostedDataSheet.FindFirst() then
+                if PostedDataSheet.FindFirst() then begin
                     "ActualValue(Text)5" := format(PostedDataSheet."Actual Value (Num)") + PostedDataSheet."Actual  Value (Text)";
+                    Lotno3 := PostedDataSheetHdr."Lot No.";
+                end;
 
             end;
         }
@@ -201,6 +281,10 @@ report 50008 QAR
         PostedDataSheetHdr3: Record "Posted Ins DatasheetHeader B2B";
         PostedDataSheetHdr4: Record "Posted Ins DatasheetHeader B2B";
         PostedDataSheetHdr5: Record "Posted Ins DatasheetHeader B2B";
+        PostedDataSheetHdr6: Record "Posted Ins DatasheetHeader B2B";
+        PostedDataSheetHdr7: Record "Posted Ins DatasheetHeader B2B";
+        PostedDataSheetHdr8: Record "Posted Ins DatasheetHeader B2B";
+
 
         "ActualValue(Text)2": Code[20];
         "ActualValue(Text)3": Code[20];
@@ -208,14 +292,21 @@ report 50008 QAR
         "ActualValue(Text)5": Code[20];
         "Property Name": Code[20];
         Companyinfo: Record "Company Information";
-        Text0001: Label 'QAR NO';
-        Text0002: Label 'QAR DATE';
-        Text0003: Label 'DATE OF RECEIPT';
-        Text0004: Label 'LOT NO';
-        Text0005: Label 'PRODUCT';
-        Text0006: Label 'SUPPLIER';
-        Text0007: label 'SUPPLIER REF NO';
-        Text0008: label 'RECEIVED QTY';
+        QARCAP: Label 'QAR NO';
+        QARDATECAP: Label 'QAR DATE';
+        DATEOFRECPT: Label 'DATE OF RECEIPT';
+        LOTNOCAP: Label 'LOT NO';
+        PRODUCTCAP: Label 'PRODUCT';
+        SUPPLIERCAP: Label 'SUPPLIER';
+        SUPPLIEREFCAP: label 'SUPPLIER REF NO';
+        RECIEVEDCAP: label 'RECEIVED QTY';
+        Lotno1: Code[20];
+        Lotno2: Code[20];
+        Lotno3: Code[20];
+        Lotno4: Code[20];
+        Lotno5: Code[20];
+        Vendor: Code[20];
+
 
 
 

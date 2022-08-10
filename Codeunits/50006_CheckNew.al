@@ -96,7 +96,7 @@ codeunit 50006 CheckNew
 
         if CurrencyCode <> '' then begin
             Currency.get(CurrencyCode);
-    //MM//        AddToNoText(NoText, NoTextIndex, PrintExponent, Currency."Currency Numeric Description");
+            //MM//        AddToNoText(NoText, NoTextIndex, PrintExponent, Currency."Currency Numeric Description");
         end;
 
         //15-02-2022 >>
@@ -119,12 +119,12 @@ codeunit 50006 CheckNew
             else
                 AddToNoText(NoText, NoTextIndex, PrintExponent, Text16526); //b2bjk
 
-        if (CurrencyCode <> '') then
-           //MM// AddToNoText(NoText, NoTextIndex, PrintExponent, '' + Currency."Currency Decimal Description" + ' ONLY');
+        //if (CurrencyCode <> '') then
+        // AddToNoText(NoText, NoTextIndex, PrintExponent, '' + Currency."Currency Decimal Description" + ' ONLY');
 
         //15-02-2022 >>
         if CurrencyCode = '' then begin
-            AddToNoText(NoText, NoTextIndex, PrintExponent, 'PAISA');
+            AddToNoText(NoText, NoTextIndex, PrintExponent, 'PAISA ONLY');
         end;
         //<<
     end;

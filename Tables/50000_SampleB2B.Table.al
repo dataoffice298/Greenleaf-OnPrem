@@ -666,7 +666,7 @@ table 50000 "Sample B2B"
         {
             Caption = 'Applies-to ID';
             DataClassification = CustomerContent;
-            TableRelation = "Item Ledger Entry"."Entry No." where("Item No." = field("Item No."));
+            TableRelation = "Item Ledger Entry"."Entry No." where("Item No." = field("Item No."), "Remaining Quantity" = filter(<> 0));
         }
         field(69; "Sales Order No."; Code[20])
         {

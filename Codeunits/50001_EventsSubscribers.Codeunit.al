@@ -24,7 +24,7 @@ codeunit 50001 MyCodeunit
     begin
         if SalesLine."Dispatch Qc" then begin
             SalesLine.CalcFields("Quantity Accepted");
-            if SalesLine."Quantity Accepted" > ABS(SalesLine."Qty. to Ship") + SalesLine."Quantity Shipped" then
+            if SalesLine."Quantity Accepted" < ABS(SalesLine."Qty. to Ship") + SalesLine."Quantity Shipped" then
                 Error(Text33000250Err, SalesLine."Document No.", SalesLine."Line No.");
         end;
     end;
