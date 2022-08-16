@@ -120,7 +120,7 @@ report 50001 "Sample Dispatch Letter"
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "Document Type" = FIELD("Document Type"), "Document No." = FIELD("No.");
-                DataItemTableView = WHERE(Type = CONST(Item));
+                //DataItemTableView = WHERE(Type = CONST(Item));
                 DataItemLinkReference = "Sales Header";
                 column(SI1; SI1)
                 {

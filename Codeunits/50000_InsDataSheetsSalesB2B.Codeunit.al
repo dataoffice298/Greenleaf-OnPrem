@@ -58,7 +58,7 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
         InspectLineNo: Integer;
         Text000Msg: Label 'Inspection Data Sheets created successfully.';
 
-        InspectionType: Option Purchase,"Purchase Lot",Rework,"Production Order","Purchase Before Inspection","Sales Order","Sample QC";
+        InspectionType: Option Purchase,"Purchase Lot",Rework,"Production Order","Purchase Before Inspection","Sales Order","Sample QC","Sales Lot";
         QCSetupRead: Boolean;
         Flag: Boolean;
         LotMin: Decimal;
@@ -205,7 +205,7 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
     end;
     //B2BSample1.0<<
 
-    procedure InitInspectionHeader(InspectionType: Option Purchase,"Purchase Lot",Rework,"Production Order","Purchase Before Inspection","Sales Order","Sample QC");
+    procedure InitInspectionHeader(InspectionType: Option Purchase,"Purchase Lot",Rework,"Production Order","Purchase Before Inspection","Sales Order","Sample QC","Sales Lot");
     var
         DeliveryReceipt: Record "Delivery/Receipt Entry B2B";
     begin
@@ -488,7 +488,36 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
                     InspectDataHeader."Item Ledger Entry No." := SampleGRec."Applies-to ID";
                     InspectDataHeader."Receipt No." := SampleGRec."Receipt No.";
                 end;
-        //B2BSample1.0<<
+            //B2BSample1.0<<
+
+            //B2BSalesLot1.0>>
+            InspectionType::"Sales Lot":
+                begin
+                    InspectDataHeader.Description := SalesHeader."Sell-to Customer No.";
+                    InspectDataHeader."Order No." := SalesHeader."No.";
+                    InspectDataHeader."Sales. Line No" := salesLine."Line No.";
+                    InspectDataHeader."Posting Date" := SalesHeader."Posting Date";
+                    InspectDataHeader."Document Date" := SalesHeader."Document Date";
+                    InspectDataHeader."Document Type" := InspectDataHeader."Document Type"::"Sales Order";
+                    InspectDataHeader.Location := SalesHeader."Location Code";
+                    InspectDataHeader."Source Type" := InspectDataHeader."Source Type"::"In Bound";
+                    InspectDataHeader."External Document No." := SalesHeader."External Document No.";
+                    InspectDataHeader."Unit of Measure Code" := salesLine."Unit of Measure Code";
+                    InspectDataHeader."Spec Version" := salesLine."Spec Version";
+                    InspectDataHeader."Item Tracking Exists" := true;
+                    InspectDataHeader."Quality Before Receipt" := false;
+                    InspectDataHeader."Item No." := InspLot."Item No.";
+                    InspectDataHeader."Item Description" := InspLot."Item Description";
+                    InspectDataHeader.Quantity := InspLot.Quantity;
+                    CheckSpecCertified(InspLot."Spec ID");
+                    InspectDataHeader."Spec ID" := InspLot."Spec ID";
+                    InspectDataHeader."Purch. Line No" := InspLot."Purch. Line No.";
+                    InspectDataHeader.validate("Lot No.", InspLot."Lot No.");
+                    InspectDataHeader."Qty. per Unit of Measure" := salesLine."Qty. per Unit of Measure";
+                    InspectDataHeader."Base Unit of Measure" := Item."Base Unit of Measure";
+                    InspectDataHeader."Quantity (Base)" := salesLine."Quantity (Base)";
+                end;
+        //B2BSalesLot1.0<<
         end;
 
         if itemrec.get(InspectDataHeader."Item No.") then
@@ -856,17 +885,90 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
 
     end;
     */
-
+    //For Sales Order>>
     procedure CreateSalesLineInspectDataSheet(SalesHeader2: Record "Sales Header"; var SalesLine2: Record "Sales Line");
     begin
         SalesHeader.COPY(SalesHeader2);
         SalesLine.COPY(SalesLine2);
-        InitInspectionHeader(InspectionType::"Sales Order");
-        InsertInspectionDataHeader();
+        CreateSalesLotTrackInspectDataSheet(SalesLine2);
         SalesLine2."Qty. Sent to Quality" := SalesLine2."Qty. Sent to Quality" + SalesLine2."Qty. Sending to Quality";
         SalesLine2."Qty. Sending to Quality" := 0;
         SalesLine2.MODIFY();
         MESSAGE(Text000Msg);
+    end;
+
+    procedure CreateSalesLotTrackInspectDataSheet(SalesLine2: Record "Sales Line");
+    begin
+        CopySalesItemTrackingLots(SalesLine2);
+        InspectLot.reset();
+        InspectLot.SETRANGE("Document No.", SalesLine2."Document No.");
+        InspectLot.SETRANGE("Purch. Line No.", SalesLine2."Line No.");
+        if InspectLot.FIND('-') then
+            repeat
+                InspLot.COPY(InspectLot);
+                if InspectLot."Lot No." <> '' then
+                    InitInspectionHeader(InspectionType::"Sales Lot")
+                else
+                    InitInspectionHeader(InspectionType::"Sales Order");
+                InsertInspectionDataHeader();
+                InspectLot."Inspect. Data Sheet Created" := true;
+                InspectLot.MODIFY();
+            until InspectLot.NEXT() = 0;
+    end;
+
+    procedure CopySalesItemTrackingLots(SalesLine1: Record "Sales Line");
+    var
+        ReserveEntry: Record "Reservation Entry";
+        ItemLRec: Record Item;
+        ErrTrack: Label 'Reservation is mandatory to create "Inspection Data Sheets" for Line No. - %1.';
+        ReserveEntryLRec: Record "Reservation Entry";
+        LineNo: Integer;
+    begin
+        ReserveEntry.Reset();
+        ReserveEntry.SETCURRENTKEY("Source ID", "Source Type");
+        ReserveEntry.SetRange("Source Type", 37);
+        ReserveEntry.SetRange("Source Subtype", 1);
+        ReserveEntry.SetRange("Source ID", SalesLine1."Document No.");
+        ReserveEntry.SetRange("Source Ref. No.", SalesLine1."Line No.");
+        ReserveEntry.SetRange("Reservation Status", ReserveEntry."Reservation Status"::Reservation);
+        ReserveEntry.SETRANGE("Source Batch Name", '');
+        ReserveEntry.SETRANGE("Source Prod. Order Line", 0);
+        TempItemLedgEntry.DELETEALL();
+        LineNo := 10000;
+        if ReserveEntry.FIND('-') then begin
+            repeat
+                ReserveEntryLRec.Get(ReserveEntry."Entry No.", true);
+                ItemLedgEntry.GET(ReserveEntryLRec."Source Ref. No.");
+                TempItemLedgEntry := ItemLedgEntry;
+                ItemLedgEntry1.INIT();
+                ItemLedgEntry1.TRANSFERFIELDS(ItemLedgEntry);
+                ItemLedgEntry1.INSERT();
+                AddTempRecordSet(TempItemLedgEntry);
+            until ReserveEntry.NEXT() = 0;
+        end else
+            Error(ErrTrack, SalesLine1."Line No.");
+
+        if TempItemLedgEntry.FIND('-') then begin
+            InspectLot.reset();
+            InspectLot.SETRANGE("Document No.", SalesLine1."Document No.");
+            InspectLot.SETRANGE("Purch. Line No.", SalesLine1."Line No.");
+            if InspectLot.FIND('+') then
+                LineNo := InspectLot."Line No.";
+            InspectLot.INIT();
+            repeat
+                InspectLot."Document No." := SalesLine1."Document No.";
+                InspectLot."Purch. Line No." := SalesLine1."Line No.";
+                InspectLot."Lot No." := TempItemLedgEntry."Lot No.";
+                InspectLot."Line No." := LineNo;
+                InspectLot.Quantity := TempItemLedgEntry.Quantity;
+                InspectLot."Item Ledger Entry No." := TempItemLedgEntry."Entry No.";
+                InspectLot."Item No." := SalesLine1."No.";
+                InspectLot."Item Description" := SalesLine1.Description;
+                InspectLot."Spec ID" := SalesLine1."Spec ID";
+                InspectLot.INSERT();
+                LineNo := LineNo + 10000;
+            until TempItemLedgEntry.NEXT() = 0;
+        end;
     end;
 
     var

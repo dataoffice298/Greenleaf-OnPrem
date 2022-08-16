@@ -16,15 +16,17 @@ report 50003 "Blending Report"
             {
 
             }
-            column(Comments; producationCom.Comment)
+            column(Comments; ProdOrderGRec.Comment)
             { }
-            column(BlendingCap; BlendingCap)
+            column(CreationDate; ProdOrderGRec."Creation Date")
             {
 
             }
 
+            column(BlendingCap; BlendingCap)
+            {
 
-
+            }
             column(ProductionCap; ProductionCap)
             { }
             column(DateIssCap; DateIssCap)
@@ -187,9 +189,7 @@ report 50003 "Blending Report"
             }
             trigger OnAfterGetRecord()
             begin
-                if producationCom.get("Prod. Order No.") then;
-
-
+                if ProdOrderGRec.get(Status, "Prod. Order No.") then;
             end;
 
 
@@ -199,11 +199,6 @@ report 50003 "Blending Report"
 
     requestpage
     {
-
-
-
-
-
         actions
         {
             area(processing)
@@ -253,7 +248,7 @@ report 50003 "Blending Report"
         TotalQuantityConsumption: Decimal;
         TotalQuantityOutput: Decimal;
         Percentage1: Decimal;
-        producationCom: Record "Production Order";
+        ProdOrderGRec: Record "Production Order";
 
 
 

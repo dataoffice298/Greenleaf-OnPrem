@@ -53,7 +53,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Comments.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>Underline</TextDecoration>
@@ -1391,7 +1391,7 @@
               <Top>1.96384cm</Top>
               <Left>1.02869cm</Left>
               <Height>0.4057cm</Height>
-              <Width>4.76154cm</Width>
+              <Width>4.45382cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -1497,20 +1497,22 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Globals!ExecutionTime</Value>
+                      <Value>=Fields!CreationDate.Value</Value>
                       <Style>
                         <Format>dd-MMM-yy</Format>
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>1.96384cm</Top>
-              <Left>5.96662cm</Left>
-              <Height>0.51152cm</Height>
-              <Width>2.87987cm</Width>
+              <Top>1.82273cm</Top>
+              <Left>6.1257cm</Left>
+              <Height>0.54681cm</Height>
+              <Width>2.93247cm</Width>
               <ZIndex>7</ZIndex>
               <Style>
                 <Border>
@@ -1826,6 +1828,9 @@ End Function
         </Field>
         <Field Name="Comments">
           <DataField>Comments</DataField>
+        </Field>
+        <Field Name="CreationDate">
+          <DataField>CreationDate</DataField>
         </Field>
         <Field Name="BlendingCap">
           <DataField>BlendingCap</DataField>

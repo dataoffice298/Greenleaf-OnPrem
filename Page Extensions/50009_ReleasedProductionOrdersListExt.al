@@ -12,19 +12,19 @@ pageextension 50009 ReleasedProductionOrders extends "Released Production Orders
             action(BlendingReport)
             {
                 Caption = 'Blending Report';
-                Image = Print;
+                Image = Report;
                 Promoted = true;
                 ApplicationArea = All;
 
                 trigger OnAction()
                 var
-                    RelProdOrder: Record "Prod. Order Line";
+                    RelProdOrderLRec: Record "Prod. Order Line";
 
                 begin
-                    RelProdOrder.Reset();
-                    RelProdOrder.SetRange("Prod. Order No.", Rec."No.");
-                    if RelProdOrder.FindFirst() then
-                        Report.RunModal(Report::"Blending Report", true, false, RelProdOrder);
+                    RelProdOrderLRec.Reset();
+                    RelProdOrderLRec.SetRange("Prod. Order No.", Rec."No.");
+                    if RelProdOrderLRec.FindFirst() then
+                        Report.RunModal(Report::"Blending Report", true, false, RelProdOrderLRec);
 
 
                 end;
