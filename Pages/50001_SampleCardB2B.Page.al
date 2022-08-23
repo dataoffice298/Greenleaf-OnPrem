@@ -3,6 +3,7 @@ page 50001 "Sample Card B2B"
     Caption = 'Sample Card';
     PageType = Card;
     SourceTable = "Sample B2B";
+    PromotedActionCategories = 'New,Process,Report,Order,Navigate,Functions';
 
     layout
     {
@@ -49,6 +50,10 @@ page 50001 "Sample Card B2B"
                 {
                     ApplicationArea = all;
                 }
+                field("Dispatch Qty"; Rec."Dispatch Qty")
+                {
+                    ApplicationArea = all;
+                }
                 field("Batch No."; Rec."Batch No.")
                 {
                     ApplicationArea = all;
@@ -91,12 +96,32 @@ page 50001 "Sample Card B2B"
                 {
                     ApplicationArea = all;
                 }
-                field("Sales Order No."; Rec."Sales Order No.")
+                field("Sample Order No."; Rec."Sample Order No.")
                 {
                     ApplicationArea = all;
                     Editable = false;
                 }
-                field("Purchase Order No."; Rec."Purchase Order No.")
+                field("Sample Dispatch No."; Rec."Sample Dispatch No.")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+                field("Sample Purchase Order No."; Rec."Sample Purchase Order No.")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+                field("Sample Purchase Dispatch No."; Rec."Sample Purchase Dispatch No.")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+                field("Sample Prod. Order No."; Rec."Sample Prod. Order No.")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
+                }
+                field("Sample Dispatch Prod. No."; Rec."Sample Dispatch Prod. No.")
                 {
                     ApplicationArea = all;
                     Editable = false;
@@ -245,26 +270,35 @@ page 50001 "Sample Card B2B"
     {
         area(Navigation)
         {
-            group("Order")
+
+            group("&Sales")
             {
-                Caption = 'Order';
-                Image = Order;
-                action(CreateSalesOrder)
+                Caption = '&Sales';
+                Image = Sales;
+                action(CreateSampleOrder)
                 {
-                    Caption = 'Create Sales Order';
-                    Image = Sales;
+                    Caption = 'Create Sales Sample Order';
+                    Image = SpecialOrder;
                     ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
 
                     trigger OnAction()
                     begin
                         CreateOrder(0);
                     end;
                 }
-                action(CreatePurchaseOrder)
+                action(CreateDispatchOrder)
                 {
-                    Caption = 'Create Purchase Order';
-                    Image = Purchase;
+                    Caption = 'Create Sales Dispatch Order';
+                    Image = Order;
                     ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
 
                     trigger OnAction()
                     begin
@@ -272,6 +306,75 @@ page 50001 "Sample Card B2B"
                     end;
                 }
             }
+            group("&Purchase")
+            {
+                Caption = '&Purchase';
+                action(CreateSamplePurchaseOrder)
+                {
+                    Caption = 'Create Sample Purchase Order';
+                    Image = Purchase;
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+
+                    trigger OnAction()
+                    begin
+                        CreateOrder(2);
+                    end;
+                }
+                action(CreatePurchaseDispatchOrder)
+                {
+                    Caption = 'Create Purchase Dispatch Order';
+                    Image = Purchasing;
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+
+                    trigger OnAction()
+                    begin
+                        CreateOrder(3);
+                    end;
+                }
+            }
+            group("&Production")
+            {
+                Caption = '&Production';
+                action(CreateSampleProdOrder)
+                {
+                    Caption = 'Create Sample Prod. Order';
+                    Image = Purchase;
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+
+                    trigger OnAction()
+                    begin
+                        CreateOrder(4);
+                    end;
+                }
+                action(CreateDispatchProdOrder)
+                {
+                    Caption = 'Create Dispatch Prod. Order';
+                    Image = Purchasing;
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+
+                    trigger OnAction()
+                    begin
+                        CreateOrder(5);
+                    end;
+                }
+            }
+
 
             group("F&unctions")
             {
@@ -283,6 +386,10 @@ page 50001 "Sample Card B2B"
                     ApplicationArea = all;
                     Caption = 'Create Inspection Data &Sheets';
                     Image = CreateForm;
+                    Promoted = true;
+                    PromotedCategory = Category6;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
 
                     trigger OnAction();
                     begin
@@ -302,58 +409,143 @@ page 50001 "Sample Card B2B"
                         Rec.CreateInspectionDataSheets();
                     end;
                 }
-                action(Test)
-                {
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    var
-                        ReserveEntry: Record "Reservation Entry";
-                    begin
-                        ReserveEntry.Reset();
-                        ReserveEntry.SetRange("Item No.", '70068');
-                        if ReserveEntry.FindSet() then
-                            ReserveEntry.DeleteAll();
-                    end;
-                }
             }
 
             group("&Navigate")
             {
                 Caption = '&Navigate';
                 Image = Navigate;
-
-                action(InspectionDataSheets)
+                group(Inspection)
                 {
-                    Caption = 'Inspection Data Sheets';
-                    Image = History;
-                    ApplicationArea = All;
-                    RunObject = page "Inspection Data Sheet List B2B";
-                    RunPageLink = "Sample ID" = field("Sample ID");
+                    action(InspectionDataSheets)
+                    {
+                        Caption = 'Inspection Data Sheets';
+                        Image = History;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Inspection Data Sheet List B2B";
+                        RunPageLink = "Sample ID" = field("Sample ID");
+                    }
+                    action(PostedInspectionDataSheets)
+                    {
+                        Caption = 'Posted Inspection Data Sheets';
+                        Image = History;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Posted Ins DataSheet List B2B";
+                        RunPageLink = "Sample ID" = field("Sample ID");
+                    }
+                    action(InspectionReceipts)
+                    {
+                        Caption = 'Inspection Receipts';
+                        Image = History;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Inspection Receipt List B2B";
+                        RunPageLink = "Sample ID" = field("Sample ID");
+                    }
+                    action(PostedInspectionReceipts)
+                    {
+                        Caption = 'Posted Inspection Receipts';
+                        Image = History;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Posted Ins Receipt List B2B";
+                        RunPageLink = "Sample ID" = field("Sample ID");
+                    }
                 }
-                action(PostedInspectionDataSheets)
+                group(Orders)
                 {
-                    Caption = 'Posted Inspection Data Sheets';
-                    Image = History;
-                    ApplicationArea = All;
-                    RunObject = page "Posted Ins DataSheet List B2B";
-                    RunPageLink = "Sample ID" = field("Sample ID");
-                }
-                action(InspectionReceipts)
-                {
-                    Caption = 'Inspection Receipts';
-                    Image = History;
-                    ApplicationArea = All;
-                    RunObject = page "Inspection Receipt List B2B";
-                    RunPageLink = "Sample ID" = field("Sample ID");
-                }
-                action(PostedInspectionReceipts)
-                {
-                    Caption = 'Posted Inspection Receipts';
-                    Image = History;
-                    ApplicationArea = All;
-                    RunObject = page "Posted Ins Receipt List B2B";
-                    RunPageLink = "Sample ID" = field("Sample ID");
+                    action(SampleOrder)
+                    {
+                        Caption = 'Sample Order';
+                        Image = Sales;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Sales Order";
+                        RunPageLink = "No." = field("Sample Order No."),
+                                        "Sample ID" = field("Sample ID");
+                    }
+                    action(SampleDispatchOrder)
+                    {
+                        Caption = 'Sample Dispatch Order';
+                        Image = Sales;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Sales Order";
+                        RunPageLink = "No." = field("Sample Dispatch No."),
+                                        "Sample ID" = field("Sample ID");
+                    }
+                    action(SamplePurchaseOrder)
+                    {
+                        Caption = 'Sample Purchase Order';
+                        Image = Purchase;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Purchase Order";
+                        RunPageLink = "Sample ID" = field("Sample ID"),
+                                        "No." = field("Sample Purchase Order No.");
+                    }
+                    action(SamplePurchDispatchOrder)
+                    {
+                        Caption = 'Sample Purch. Dispatch Order';
+                        Image = Purchase;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Posted Ins Receipt List B2B";
+                        RunPageLink = "Sample ID" = field("Sample ID"),
+                                        "No." = field("Sample Purchase Dispatch No.");
+                    }
+                    action(SampleProductionOrder)
+                    {
+                        Caption = 'Sample Production Order';
+                        Image = Production;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Released Production Order";
+                        RunPageLink = "Sample ID" = field("Sample ID"),
+                                        "No." = field("Sample Prod. Order No.");
+                    }
+                    action(SampleDispatchProductionOrder)
+                    {
+                        Caption = 'Sample Prod. Dispatch Order';
+                        Image = Production;
+                        ApplicationArea = All;
+                        Promoted = true;
+                        PromotedCategory = Category5;
+                        //PromotedIsBig = true;
+                        PromotedOnly = true;
+                        RunObject = page "Released Production Order";
+                        RunPageLink = "Sample ID" = field("Sample ID"),
+                                        "No." = field("Sample Dispatch Prod. No.");
+                    }
                 }
             }
         }
@@ -376,20 +568,31 @@ page 50001 "Sample Card B2B"
         ContactEditable: Boolean;
         Text002Lbl: Label 'Vendor is already created';
 
-    procedure CreateOrder(OrderType: Option "Sales Order","Purchase Order")
+    procedure CreateOrder(OrderType: Option "Sample Order","Sample Dispatch Order","Sample Purchase Order","Sample Purch. Disp. Order","Sample Prod. Order","Sample Disp. Prod. Order")
     var
         SalesHeader: Record "Sales Header";
         SalesLine: Record "Sales Line";
         PurchaseHeader: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
-        Text001: Label 'Sales Order with document no. - %1 has been created successfully.';
-        Text002: Label 'Purchase Order with document no. - %1 has been created successfully.';
-        Text003: Label 'Sales Order is already created.';
-        Text004: Label 'Purchase Order is already created.';
+        ProdOrder: Record "Production Order";
+        ProdOrdNo: Code[20];
+        Text001: Label 'Sample Order with document no. - %1 has been created successfully.';
+        Text002: Label 'Sample Dispatch Order with document no. - %1 has been created successfully.';
+        Text003: Label 'Sample Purchase Order with document no. - %1 has been created successfully.';
+        Text004: Label 'Sample Purchase Dispacth Order with document no. - %1 has been created successfully.';
+        Text005: Label 'Sample Order is already created.';
+        Text006: Label 'Sample Dispatch Order is already created.';
+        Text007: Label 'Sample Purchase Order is already created.';
+        Text008: Label 'Sample Purchase Dispatch Order is already created.';
+        Text009: Label 'Sample Production Order with document no. - %1 has been created successfully.';
+        Text010: Label 'Sample Production Order is already created.';
+        Text011: Label 'Sample Dispatch Production Order with document no. - %1 has been created successfully.';
+        Text012: Label 'Sample Dispatch Production Order is already created.';
     begin
-        if OrderType = OrderType::"Sales Order" then begin
-            if Rec."Sales Order No." <> '' then
-                Error(Text003);
+        //Sample Order Starts>>
+        if OrderType = OrderType::"Sample Order" then begin
+            if Rec."Sample Order No." <> '' then
+                Error(Text005);
             Rec.TestField("Customer No.");
             Rec.TestField("Sample ID");
             Rec.TestField("Item No.");
@@ -411,17 +614,55 @@ page 50001 "Sample Card B2B"
             SalesLine.Validate("No.", Rec."Item No.");
             SalesLine.Validate(Quantity, Rec."Sample Qty");
             SalesLine.Validate("Unit of Measure Code", Rec."Sample UOM");
+            SalesLine.Validate("Unit Cost", 0);
             SalesLine."Spec ID" := Rec."Sales Spec ID";
             SalesLine.Insert(true);
             //Line Part<<
-            Rec."Sales Order No." := SalesHeader."No.";
+            Rec."Sample Order No." := SalesHeader."No.";
             Rec.Modify();
             Message(Text001, SalesHeader."No.");
         end;
+        //Sample Order Ends<<
 
-        if OrderType = OrderType::"Purchase Order" then begin
-            if Rec."Purchase Order No." <> '' then
-                Error(Text004);
+        //Sample Dispactch Order Starts>>
+        if OrderType = OrderType::"Sample Dispatch Order" then begin
+            if Rec."Sample Dispatch No." <> '' then
+                Error(Text006);
+            Rec.TestField("Customer No.");
+            Rec.TestField("Sample ID");
+            Rec.TestField("Item No.");
+            Rec.TestField("Dispatch Qty");
+            //Header Part>>
+            SalesHeader.Init();
+            SalesHeader."Document Type" := SalesHeader."Document Type"::Order;
+            SalesHeader.Validate("Sell-to Customer No.", Rec."Customer No.");
+            SalesHeader."Sample ID" := Rec."Sample ID";
+            SalesHeader.Insert(true);
+            //Header Part<<
+
+            //Line Part>>
+            SalesLine.Init();
+            SalesLine."Document Type" := SalesLine."Document Type"::Order;
+            SalesLine."Document No." := SalesHeader."No.";
+            SalesLine.Validate("Sell-to Customer No.", SalesHeader."Sell-to Customer No.");
+            SalesLine.Validate(Type, SalesLine.Type::Item);
+            SalesLine.Validate("No.", Rec."Item No.");
+            SalesLine.Validate(Quantity, Rec."Dispatch Qty");
+            SalesLine.Validate("Unit of Measure Code", Rec."Sample UOM");
+            SalesLine.Validate("Unit Cost", 0);
+            SalesLine."Spec ID" := Rec."Sales Spec ID";
+            SalesLine.Insert(true);
+            //Line Part<<
+            Rec."Sample Dispatch No." := SalesHeader."No.";
+            Rec.Modify();
+            Message(Text002, SalesHeader."No.");
+        end;
+        //Sample Dispactch Order Ends<<
+
+        //Sample Purchase Order Starts>>
+        if OrderType = OrderType::"Sample Purchase Order" then begin
+            if Rec."Sample Purchase Order No." <> '' then
+                Error(Text007);
             Rec.TestField("Vendor No.");
             Rec.TestField("Sample ID");
             Rec.TestField("Item No.");
@@ -443,175 +684,110 @@ page 50001 "Sample Card B2B"
             PurchaseLine.Validate("No.", Rec."Item No.");
             PurchaseLine.Validate(Quantity, Rec."Sample Qty");
             PurchaseLine.Validate("Unit of Measure Code", Rec."Sample UOM");
+            PurchaseLine.Validate("Unit Cost", 0);
             PurchaseLine."Spec ID B2B" := Rec."Purchase Spec ID";
             PurchaseLine.Insert(true);
             //Line Part<<
-            Rec."Purchase Order No." := PurchaseHeader."No.";
+            Rec."Sample Purchase Order No." := PurchaseHeader."No.";
             Rec.Modify();
-            Message(Text002, PurchaseHeader."No.");
+            Message(Text003, PurchaseHeader."No.");
         end;
+        //Sample Purchase Order Ends<<
+
+        //Sample Dispatch Purchase Order Starts>>
+        if OrderType = OrderType::"Sample Purch. Disp. Order" then begin
+            if Rec."Sample Purchase Dispatch No." <> '' then
+                Error(Text008);
+            Rec.TestField("Vendor No.");
+            Rec.TestField("Sample ID");
+            Rec.TestField("Item No.");
+            Rec.TestField("Dispatch Qty");
+            //Header Part>>
+            PurchaseHeader.Init();
+            PurchaseHeader."Document Type" := PurchaseHeader."Document Type"::Order;
+            PurchaseHeader.Validate("Buy-from Vendor No.", Rec."Vendor No.");
+            PurchaseHeader."Sample ID" := Rec."Sample ID";
+            PurchaseHeader.Insert(true);
+            //Header Part<<
+
+            //Line Part>>
+            PurchaseLine.Init();
+            PurchaseLine."Document Type" := PurchaseLine."Document Type"::Order;
+            PurchaseLine."Document No." := PurchaseHeader."No.";
+            PurchaseLine.Validate("Buy-from Vendor No.", PurchaseHeader."Buy-from Vendor No.");
+            PurchaseLine.Validate(Type, PurchaseLine.Type::Item);
+            PurchaseLine.Validate("No.", Rec."Item No.");
+            PurchaseLine.Validate(Quantity, Rec."Dispatch Qty");
+            PurchaseLine.Validate("Unit of Measure Code", Rec."Sample UOM");
+            PurchaseLine.Validate("Unit Cost", 0);
+            PurchaseLine."Spec ID B2B" := Rec."Purchase Spec ID";
+            PurchaseLine.Insert(true);
+            //Line Part<<
+            Rec."Sample Purchase Dispatch No." := PurchaseHeader."No.";
+            Rec.Modify();
+            Message(Text004, PurchaseHeader."No.");
+        end;
+        //Sample Dispatch Purchase Order Ends<<
+
+        //Sample Production Order Starts>>
+        if OrderType = OrderType::"Sample Prod. Order" then begin
+            if Rec."Sample Prod. Order No." <> '' then
+                Error(Text010);
+
+            Rec.TestField("Sample ID");
+            Rec.TestField("Item No.");
+            Rec.TestField("Sample Qty");
+
+            ProdOrder.Init();
+            ProdOrder."Source Type" := ProdOrder."Source Type"::Item;
+            ProdOrder.Validate("Source No.", Rec."Item No.");
+            ProdOrder.Validate(Quantity, Rec."Sample Qty");
+            ProdOrder."Sample ID" := Rec."Sample ID";
+            ProdOrder.Status := ProdOrder.Status::Released;
+            ProdOrder.Insert(true);
+            ProdOrdNo := ProdOrder."No.";
+            Commit();
+
+            ProdOrder.Reset();
+            ProdOrder.SetRange("No.", ProdOrdNo);
+            REPORT.RunModal(REPORT::"Refresh Production Order", true, true, ProdOrder);
+
+            Rec."Sample Prod. Order No." := ProdOrder."No.";
+            Rec.Modify();
+            Message(Text009, ProdOrder."No.");
+        end;
+        //Sample Production Order Ends<<
+
+        //Sample Dispatch Production Order Starts>>
+        if OrderType = OrderType::"Sample Disp. Prod. Order" then begin
+            if Rec."Sample Dispatch Prod. No." <> '' then
+                Error(Text012);
+
+            Rec.TestField("Sample ID");
+            Rec.TestField("Item No.");
+            Rec.TestField("Dispatch Qty");
+
+            ProdOrder.Init();
+            ProdOrder."Source Type" := ProdOrder."Source Type"::Item;
+            ProdOrder.Validate("Source No.", Rec."Item No.");
+            ProdOrder.Validate(Quantity, Rec."Dispatch Qty");
+            ProdOrder."Sample ID" := Rec."Sample ID";
+            ProdOrder.Status := ProdOrder.Status::Released;
+            ProdOrder.Insert(true);
+            ProdOrdNo := ProdOrder."No.";
+            Commit();
+
+            ProdOrder.Reset();
+            ProdOrder.SetRange("No.", ProdOrdNo);
+            REPORT.RunModal(REPORT::"Refresh Production Order", true, true, ProdOrder);
+
+            Rec."Sample Dispatch Prod. No." := ProdOrder."No.";
+            Rec.Modify();
+            Message(Text011, ProdOrder."No.");
+        end;
+        //Sample Dispatch Production Order Ends<<
     end;
-    /*
 
-    actions
-    {
-        area(navigation)
-        {
-            group("&Sample")
-            {
-                Caption = '&Sample';
-                Image = RegisteredDocs;
-                group("I&nspection")
-                {
-                    Caption = 'I&nspection';
-                    Image = RegisteredDocs;
-                    action("Inspection &Data Sheets")
-                    {
-                        ApplicationArea = all;
-                        Caption = 'Inspection &Data Sheets';
-                        Image = DataEntry;
-
-                        trigger OnAction();
-                        begin
-                            ShowDataSheets();
-                        end;
-                    }
-                    action("&Posted Inspection Data Sheets")
-                    {
-                        ApplicationArea = all;
-                        Caption = '&Posted Inspection Data Sheets';
-                        Image = Post;
-
-                        trigger OnAction();
-                        begin
-                            ShowPostDataSheets();
-                        end;
-                    }
-                    action("Inspection &Receipts")
-                    {
-                        ApplicationArea = all;
-                        Caption = 'Inspection &Receipts';
-                        Image = Receipt;
-
-                        trigger OnAction();
-                        begin
-                            ShowInspectReceipt();
-                        end;
-                    }
-                    action("Posted Inspection Re&ceipts")
-                    {
-                        ApplicationArea = all;
-                        Caption = 'Posted Inspection Re&ceipts';
-                        Image = PostedReceipt;
-
-                        trigger OnAction();
-                        begin
-                            ShowPostInspectReceipt();
-                        end;
-                    }
-                }
-            }
-        }
-        area(processing)
-        {
-            action("Sample &Register")
-            {
-                ApplicationArea = all;
-                Caption = 'Sample &Register';
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                Visible = false;
-
-                trigger OnAction();
-                begin
-                    REPORT.RUNMODAL(50060, true, false, Rec);
-                end;
-            }
-            group("F&unctions")
-            {
-                Caption = 'F&unctions';
-                Image = ReferenceData;
-                action("Create Vendor")
-                {
-                    ApplicationArea = all;
-                    Caption = 'Create Vendor';
-                    Image = CreateForm;
-
-                    trigger OnAction();
-                    begin
-                        TESTFIELD("Vendor Name");
-                        if "Vendor No." <> '' then
-                            ERROR(Text002Lbl)
-                        else
-                            if CONFIRM(Text001Lbl) then begin
-                                TESTFIELD("QC Completed");
-                                "Purchases&PayablesSetup".GET();
-                                Vendor."No." := NoSeriesMgt.GetNextNo("Purchases&PayablesSetup"."Vendor Nos.", 0D, true);
-                                CreatedVendor := Vendor."No.";
-                                Vendor.VALIDATE(Name, "Vendor Name");
-                                Vendor.VALIDATE(Name, "Vendor Name");
-                                Vendor.VALIDATE(Address, Address);
-                                Vendor.VALIDATE("Address 2", Address2);
-                                Vendor.VALIDATE(City, City);
-                                Vendor.Contact := Contact;
-                                Vendor.VALIDATE("Phone No.", "Phone No.");
-                                Vendor.VALIDATE("Telex No.", "Telex No.");
-                                Vendor.VALIDATE("Post Code", "Post Code");
-                                Vendor.VALIDATE("Country/Region Code", "Country Code");
-                                Vendor.VALIDATE("Fax No.", "Fax No.");
-                                Vendor.VALIDATE("Primary Contact No.", "Primary Contact No.");
-                                Vendor.VALIDATE("E-Mail", "E-Mail");
-                                Vendor.VALIDATE("Home Page", "Home Page");
-                                Vendor.INSERT();
-                                Rec."Vendor Created" := true;
-                                MESSAGE(Text000Lbl, CreatedVendor);
-                                Rec."Vendor No." := CreatedVendor;
-                                CurrPage.UPDATE();
-                            end;
-
-                        CurrPage.UPDATE();
-                    end;
-                }
-                action("Create Inspection Data &Sheets")
-                {
-                    ApplicationArea = all;
-                    Caption = 'Create Inspection Data &Sheets';
-                    Image = CreateForm;
-
-                    trigger OnAction();
-                    begin
-                        TESTFIELD("Item No.");
-                        TESTFIELD("Sample Qty");
-                        TESTFIELD("Sample UOM");
-                        TESTFIELD("Batch No.");
-                        TESTFIELD("Mfg Date");
-                        if Item.GET("Item No.") then
-                            if Item."Item Classification" <> Item."Item Classification"::Packing then
-                                TESTFIELD("Expiry Date");
-                        TESTFIELD("Specification ID");
-                        if "Vendor No." = '' then
-                            TESTFIELD("Vendor Name")
-                        else
-                            TESTFIELD("Vendor No.");
-                        CreateInspectionDataSheets();
-                    end;
-                }
-                action("&Destruction Process")
-                {
-                    ApplicationArea = all;
-                    Caption = '&Destruction Process';
-                    Image = Split;
-
-                    trigger OnAction();
-                    begin
-                        InsertDestruction(Rec);
-                    end;
-                }
-            }
-        }
-    }
-    */
 
 
 

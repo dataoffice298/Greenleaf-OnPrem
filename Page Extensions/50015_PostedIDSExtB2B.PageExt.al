@@ -1,19 +1,14 @@
-pageextension 50004 PurchaseOrderExtB2B extends "Purchase Order"
+pageextension 50015 PostedIDSExtB2B extends "Posted Ins Data Sheet B2B"
 {
     layout
     {
-        addafter(Status)
+        addlast(General)
         {
             field("Sample ID"; Rec."Sample ID")
             {
                 ApplicationArea = All;
                 Editable = false;
             }
-
         }
     }
-
-
-    var
-        myInt: Integer;
 }

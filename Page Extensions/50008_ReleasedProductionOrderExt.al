@@ -2,7 +2,14 @@ pageextension 50008 ReleasedProductionOrderExtB2B extends "Released Production O
 {
     layout
     {
-        // Add changes to page layout here
+        addafter(Blocked)
+        {
+            field("Sample ID"; Rec."Sample ID")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+        }
     }
 
     actions

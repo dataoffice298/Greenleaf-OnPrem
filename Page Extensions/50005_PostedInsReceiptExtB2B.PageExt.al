@@ -2,8 +2,16 @@ pageextension 50005 PostedInsReceipExtB2B extends "Posted Inspection Receipt B2B
 {
     layout
     {
-        // Add changes to page layout here
+        addlast(General)
+        {
+            field("Sample ID"; Rec."Sample ID")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+        }
     }
+
 
     actions
     {

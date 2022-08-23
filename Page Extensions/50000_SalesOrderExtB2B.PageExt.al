@@ -2,16 +2,16 @@ pageextension 50000 SalesOrderPageExtB2B extends "Sales Order"
 {
     layout
     {
-        addafter(Control1900201301)
+        addafter(Status)
         {
-            group(QC)
+
+
+            field("Sample ID"; Rec."Sample ID")
             {
-                Caption = 'QC';
-                field("Sample ID"; Rec."Sample ID")
-                {
-                    ApplicationArea = All;
-                }
+                ApplicationArea = All;
+                Editable = false;
             }
+
         }
     }
 

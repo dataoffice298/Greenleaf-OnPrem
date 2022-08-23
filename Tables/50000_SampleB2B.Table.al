@@ -668,14 +668,14 @@ table 50000 "Sample B2B"
             DataClassification = CustomerContent;
             TableRelation = "Item Ledger Entry"."Entry No." where("Item No." = field("Item No."), "Remaining Quantity" = filter(<> 0));
         }
-        field(69; "Sales Order No."; Code[20])
+        field(69; "Sample Order No."; Code[20])
         {
-            Caption = 'Sales Order No.';
+            Caption = 'Sample Order No.';
             DataClassification = CustomerContent;
         }
-        field(70; "Purchase Order No."; Code[20])
+        field(70; "Sample Dispatch No."; Code[20])
         {
-            Caption = 'Purchase Order No.';
+            Caption = 'Sample Dispatch No.';
             DataClassification = CustomerContent;
         }
         field(71; "Sales Spec ID"; Code[20])
@@ -688,6 +688,31 @@ table 50000 "Sample B2B"
             begin
                 TestStauts();
             end;
+        }
+        field(72; "Sample Purchase Order No."; Code[20])
+        {
+            Caption = 'Sample Purchase Order No.';
+            DataClassification = CustomerContent;
+        }
+        field(73; "Sample Purchase Dispatch No."; Code[20])
+        {
+            Caption = 'Sample Purchase Dispatch No.';
+            DataClassification = CustomerContent;
+        }
+        field(74; "Dispatch Qty"; Decimal)
+        {
+            Caption = 'Dispatch Qty';
+            DataClassification = CustomerContent;
+        }
+        field(75; "Sample Prod. Order No."; Code[20])
+        {
+            Caption = 'Sample Prod. Order No.';
+            DataClassification = CustomerContent;
+        }
+        field(76; "Sample Dispatch Prod. No."; Code[20])
+        {
+            Caption = 'Sample Dispatch Prod. No.';
+            DataClassification = CustomerContent;
         }
     }
 

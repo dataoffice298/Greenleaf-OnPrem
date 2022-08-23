@@ -45,7 +45,7 @@ codeunit 50001 MyCodeunit
     procedure OnBeforeApplyInsDataSheetFilters(InspectReceipt: Record "Inspection Receipt Header B2B"; var InspectDataSheet: Record "Ins Datasheet Header B2B")
     begin
         if InspectReceipt."Document Type" = InspectReceipt."Document Type"::"Sales Order" then begin
-            //InspectDataSheet.SETRANGE("Order No.", InspectReceipt."Order No.");
+            InspectDataSheet.SETRANGE("Order No.", InspectReceipt."Order No.");
             InspectDataSheet.SetRange("Sales. Line No", InspectReceipt."Sales. Line No");
         end;
     end;
@@ -158,6 +158,46 @@ codeunit 50001 MyCodeunit
         if (InsReceiptHeader."Document Type" = InsReceiptHeader."Document Type"::"Sample QC")
         or (InsReceiptHeader."Document Type" = InsReceiptHeader."Document Type"::"Sales Order") then
             IsHandled := true;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inspection Data Sheets B2B", 'OnAfterInitInspectionHeaderInsTypePurchase', '', false, false)]
+    procedure OnAfterInitInspectionHeaderInsTypePurchase(var InspectDataHeader: Record "Ins Datasheet Header B2B"; PurchRcptHeader: record "Purch. Rcpt. Header"; PurchRcptLine: Record "Purch. Rcpt. Line")
+    var
+        PurchHeader: Record "Purchase Header";
+    begin
+        if PurchHeader.get(PurchHeader."Document Type"::Order, PurchRcptHeader."Order No.") then
+            InspectDataHeader."Sample ID" := PurchHeader."Sample ID";
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inspection Data Sheets B2B", 'OnAfterInitInspectioHeaderInsTypePurchaseBeforeInspection', '', false, false)]
+    procedure OnAfterInitInspectioHeaderInsTypePurchaseBeforeInspection(var InspectDataHeader: Record "Ins Datasheet Header B2B"; PurchHeader: Record "Purchase Header"; PurchLine: Record "Purchase Line")
+    begin
+        InspectDataHeader."Sample ID" := PurchHeader."Sample ID";
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inspection Data Sheets B2B", 'OnAfterInitInspectionHeaderInsTypeProductionOrder', '', false, false)]
+    procedure OnAfterInitInspectionHeaderInsTypeProductionOrder(var InspectDataHeader: Record "Ins Datasheet Header B2B"; ProdOrderLine: Record "Prod. Order Line"; PurchRcptLine: Record "Purch. Rcpt. Line"; ProdOrderRoutingLine: Record "Prod. Order Routing Line"; ProdOrderLine1: Record "Prod. Order Line")
+    var
+        ProdOrder: Record "Production Order";
+    begin
+        if ProdOrder.Get(ProdOrderLine.Status, ProdOrderLine."Prod. Order No.") then
+            InspectDataHeader."Sample ID" := ProdOrder."Sample ID";
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inspection Data Sheets B2B", 'OnAfterInitInspectionHeaderInsTypePurchaseLot', '', false, false)]
+    procedure OnAfterInitInspectionHeaderInsTypePurchaseLot(var InspectDataHeader: Record "Ins Datasheet Header B2B"; PurchRcptHeader: Record "Purch. Rcpt. Header"; PurchRcptLine: Record "Purch. Rcpt. Line"; InspLot: Record "Inspection Lot B2B")
+    var
+        PurchHeader: Record "Purchase Header";
+    begin
+        if PurchHeader.get(PurchHeader."Document Type"::Order, PurchRcptHeader."Order No.") then
+            InspectDataHeader."Sample ID" := PurchHeader."Sample ID";
+    end;
+
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inspection Data Sheets B2B", 'OnAfterInitInspectionHeaderInsTypeRework', '', false, false)]
+    procedure OnAfterInitInspectionHeaderInsTypeRework(var InspectDataHeader: Record "Ins Datasheet Header B2B"; InspectionReceipt: Record "Inspection Receipt Header B2B"; PurchRcptLine: Record "Purch. Rcpt. Line")
+    begin
+        InspectDataHeader."Sample ID" := InspectionReceipt."Sample ID";
     end;
 
     var

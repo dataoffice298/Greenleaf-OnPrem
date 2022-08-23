@@ -462,7 +462,8 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
                     InspectDataHeader."Shortcut Dimension 1 Code" := salesLine."Shortcut Dimension 1 Code";
                     InspectDataHeader."Shortcut Dimension 2 Code" := salesLine."Shortcut Dimension 2 Code";
                     InspectDataHeader."Dimension Set ID" := salesLine."Dimension Set ID";
-                    InspectDataHeader."Quality Before Receipt" := True;
+                    InspectDataHeader."Sample ID" := SalesHeader."Sample ID";
+                    //InspectDataHeader."Quality Before Receipt" := True;
                 end;
             //B2BSample1.0>>
             InspectionType::"Sample QC":
@@ -518,6 +519,7 @@ codeunit 50000 "Ins Data Sheets Sales B2B"
                     InspectDataHeader."Qty. per Unit of Measure" := salesLine."Qty. per Unit of Measure";
                     InspectDataHeader."Base Unit of Measure" := Item."Base Unit of Measure";
                     InspectDataHeader."Quantity (Base)" := salesLine."Quantity (Base)";
+                    InspectDataHeader."Sample ID" := SalesHeader."Sample ID";
                 end;
         //B2BSalesLot1.0<<
         end;
