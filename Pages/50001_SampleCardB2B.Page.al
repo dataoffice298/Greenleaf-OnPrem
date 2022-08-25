@@ -470,7 +470,7 @@ page 50001 "Sample Card B2B"
                 {
                     action(SampleOrder)
                     {
-                        Caption = 'Sample Order';
+                        Caption = 'Sample Sales Order';
                         Image = Sales;
                         ApplicationArea = All;
                         Promoted = true;
@@ -483,7 +483,7 @@ page 50001 "Sample Card B2B"
                     }
                     action(SampleDispatchOrder)
                     {
-                        Caption = 'Sample Dispatch Order';
+                        Caption = 'Sample Sales Dispatch Order';
                         Image = Sales;
                         ApplicationArea = All;
                         Promoted = true;
